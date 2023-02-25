@@ -181,6 +181,68 @@ while frame < 10
   end
   frame += 1
 end
+
+system "clear"
+puts "SCORE: #{score(score_arr)}"
+p score_arr
+puts "STRIKE: #{on_strike}"
+puts "SPARE: #{on_spare}"
+puts "FRAME #{frame}" #FRAME 10
+roll = prompt.ask("How many pins did you knock down on your first ball?").to_i
+if roll == 10 # STRIKE ON BALL 1
+  if on_strike == 2 # Close out first X math
+    score_arr[frame - 3] += roll
+    score_arr[frame - 2] += roll
+    score_arr[frame - 1] = roll
+  elsif on_strike == 1 # Double
+    score_arr[frame - 2] += roll
+    score_arr[frame - 1] = roll
+    on_strike += 1
+  elsif on_spare # Close out spare math
+    score_arr[frame - 2] += roll
+    score_arr[frame - 1] = roll
+    on_strike += 1
+    on_spare = false
+  else
+    score_arr[frame - 1] = roll # First strike
+    on_strike += 1
+  end
+  roll2 = prompt.ask("How many pins did you knock down on your second ball?").to_i
+  if on_strike == 2
+    score_arr[frame - 2] += roll2 # Close out X in 9th
+    score_arr[frame - 1] += roll2 # Adding in 10th
+  elsif on_strike == 1
+    score_arr[frame - 1] += roll2 # Adding in 10th
+  end
+  roll3 = prompt.ask("How many pins did you knock down on your third ball?").to_i
+  score_arr[frame - 1] += roll3 # Final ball
+else # Roll < 10
+  if on_strike == 2
+    score_arr[frame - 3] += roll # Close out X in 8th
+    on_strike -= 1
+  elsif on_spare # Close out spare math
+    score_arr[frame - 2] += roll
+    on_spare = false
+  end
+  roll2 = prompt.ask("How many pins did you knock down on your second ball?").to_i
+  frame_score = roll + roll2
+  if on_strike == 1 # Close out X in 9th
+    on_strike -= 1
+    score_arr[frame - 2] += frame_score
+    score_arr[frame - 1] = frame_score
+    if frame_score == 10 # Spare
+      roll3 = prompt.ask("How many pins did you knock down on your third ball?").to_i
+      score_arr[frame - 1] += roll3 # Final ball
+    end
+  else # Spare or open frame
+    score_arr[frame - 1] = frame_score
+    if frame_score == 10 # Spare
+      roll3 = prompt.ask("How many pins did you knock down on your third ball?").to_i
+      score_arr[frame - 1] += roll3 # Final ball
+    end
+  end
+end
+
 puts "SCORE: #{score(score_arr)}"
 p score_arr
 puts "STRIKE: #{on_strike}"
