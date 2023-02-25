@@ -14,52 +14,60 @@ def score(arr)
 end
 
 on_strike = 0
-strike_message = {
-  1 => "Nice strike!",
-  2 => "Double trouble!",
-  3 => "Turkey time!",
-  4 => "4-bagger!",
-  5 => "5-bagger!",
-  6 => "6-bagger!",
-  7 => "7-bagger!",
-  8 => "8-bagger!",
-  9 => "9-bagger!",
-  10 => "10-bagger!",
-  11 => "Everybody be quiet...",
-  12 => "PERFECT GAME!",
-}
 on_spare = false
+
 puts "FRAME 1"
 roll = prompt.ask("How many pins did you knock down on your first ball?").to_i
 if roll == 10
   puts "Nice strike!"
   on_strike += 1
   frame1 = 10
+  score_arr[0] = frame1
   # scorecard[0][1] = "X"
 else
   # scorecard[0][0] = roll
   roll2 = prompt.ask("How many pins did you knock down on your second ball?").to_i
-  if roll + roll2 == 10
-    puts "Nice spare!"
+  frame1 = roll + roll2
+  if frame1 == 10
     on_spare = true
-    frame1 = 10
-  else
-    frame1 = roll + roll2
   end
+  score_arr[0] = frame1
 end
-score_arr << frame1
 puts "SCORE: #{score(score_arr)}"
 # puts scorecard
 
 puts "FRAME 2"
 roll = prompt.ask("How many pins did you knock down on your first ball?").to_i
-if roll == 10
-  if on_strike > 1
+if roll == 10 # STRIKE
+  if on_strike == 1
     score_arr[0] += roll
+    score_arr[1] = roll
   elsif on_spare
-    puts "Nice strike!"
     score_arr[0] += roll
-    on_strike += 1
+    score_arr[1] = roll
+  else
+    score_arr[1] = roll
+  end
+  on_strike += 1
+else # Roll < 10
+  if on_spare
+    score_arr[0] += roll
+    on_spare = false
+  end
+  roll2 = prompt.ask("How many pins did you knock down on your second ball?").to_i
+  frame2 = roll + roll2
+  if on_strike == 1 # Finish previous X math
+    on_strike = 0
+    score_arr[0] += frame2
+    score_arr[1] = frame2
+  else # Spare or open frame
+    score_arr[1] = frame2
+    if frame2 == 10 # Spare
+      on_spare = true
+    end
   end
 end
 puts "SCORE: #{score(score_arr)}"
+p score_arr
+p on_strike
+p on_spare
