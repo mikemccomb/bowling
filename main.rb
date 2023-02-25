@@ -34,6 +34,9 @@ else
   score_arr[0] = frame1
 end
 puts "SCORE: #{score(score_arr)}"
+p score_arr
+p on_strike
+p on_spare
 # puts scorecard
 
 puts "FRAME 2"
@@ -45,6 +48,7 @@ if roll == 10 # STRIKE
   elsif on_spare
     score_arr[0] += roll
     score_arr[1] = roll
+    on_spare = false
   else
     score_arr[1] = roll
   end
@@ -60,6 +64,9 @@ else # Roll < 10
     on_strike = 0
     score_arr[0] += frame2
     score_arr[1] = frame2
+    if frame2 == 10 # Spare
+      on_spare = true
+    end
   else # Spare or open frame
     score_arr[1] = frame2
     if frame2 == 10 # Spare
@@ -71,3 +78,55 @@ puts "SCORE: #{score(score_arr)}"
 p score_arr
 p on_strike
 p on_spare
+
+puts "FRAME 3"
+roll = prompt.ask("How many pins did you knock down on your first ball?").to_i
+if roll == 10 # STRIKE
+  if on_strike == 2 # Close out first X math
+    score_arr[0] += roll
+    score_arr[1] += roll
+    score_arr[2] = roll
+  elsif on_strike == 1 # Double
+    score_arr[1] += roll
+    score_arr[2] = roll
+    on_strike += 1
+  elsif on_spare # Close out spare math
+    score_arr[1] += roll
+    score_arr[2] = roll
+    on_strike += 1
+    on_spare = false
+  else
+    score_arr[2] = roll # First strike
+    on_strike += 1
+  end
+else # Roll < 10
+  if on_strike == 2
+    score_arr[0] += roll # Close out first X
+    # score_arr[1] += roll # Apply to second X
+    on_strike -= 1
+    # elsif on_strike == 1
+    #   score_arr[1] += roll # Apply to X
+  elsif on_spare # Close out spare math
+    score_arr[1] += roll
+    on_spare = false
+  end
+  roll2 = prompt.ask("How many pins did you knock down on your second ball?").to_i
+  frame3 = roll + roll2
+  if on_strike == 1 # Finish previous X math
+    on_strike -= 1
+    score_arr[1] += frame3
+    score_arr[2] = frame3
+    if frame3 == 10 # Spare
+      on_spare = true
+    end
+  else # Spare or open frame
+    score_arr[2] = frame3
+    if frame3 == 10 # Spare
+      on_spare = true
+    end
+  end
+end
+puts "SCORE: #{score(score_arr)}"
+p score_arr
+puts "STRIKE: #{on_strike}"
+puts "SPARE: #{on_spare}"
