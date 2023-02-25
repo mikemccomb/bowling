@@ -1,0 +1,21 @@
+You should be able to condense code for frames 1-9 into a loop
+Consider the algebra of the various cases
+
+Frame 10 will require some noodling
+
+Need to build a failsafe if user enters:
+- X instead of 10 for strike
+- / for a spare
+- F for a foul
+- - for 0
+- frame_score > 10 (frames 1-9)
+
+Eventually split this out into classes/methods
+
+Display as a score card:
+|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][][]|
+| ## | ## | ## | ## | ## | ## | ## | ## | ## | ###  |
+
+Congratulate closed frames
+
+Allow user to edit entries
