@@ -15,21 +15,22 @@ end
 on_strike = 0
 on_spare = false
 frame = 1
+frame_score = 0
 
 puts "FRAME #{frame}" # FRAME 1
 roll = prompt.ask("How many pins did you knock down on your first ball?").to_i
 if roll == 10
   puts "Nice strike!"
   on_strike += 1
-  frame1 = 10
-  score_arr[frame - 1] = frame1
+  frame_score = 10
+  score_arr[frame - 1] = frame_score
 else
   roll2 = prompt.ask("How many pins did you knock down on your second ball?").to_i
-  frame1 = roll + roll2
-  if frame1 == 10
+  frame_score = roll + roll2
+  if frame_score == 10
     on_spare = true
   end
-  score_arr[frame - 1] = frame1
+  score_arr[frame - 1] = frame_score
 end
 puts "SCORE: #{score(score_arr)}"
 frame += 1
@@ -57,17 +58,17 @@ else # Roll < 10
     on_spare = false
   end
   roll2 = prompt.ask("How many pins did you knock down on your second ball?").to_i
-  frame2 = roll + roll2
+  frame_score = roll + roll2
   if on_strike == 1 # Finish previous X math
     on_strike = 0
-    score_arr[frame - 2] += frame2
-    score_arr[frame - 1] = frame2
-    if frame2 == 10 # Spare
+    score_arr[frame - 2] += frame_score
+    score_arr[frame - 1] = frame_score
+    if frame_score == 10 # Spare
       on_spare = true
     end
   else # Spare or open frame
-    score_arr[frame - 1] = frame2
-    if frame2 == 10 # Spare
+    score_arr[frame - 1] = frame_score
+    if frame_score == 10 # Spare
       on_spare = true
     end
   end
@@ -107,17 +108,17 @@ else # Roll < 10
     on_spare = false
   end
   roll2 = prompt.ask("How many pins did you knock down on your second ball?").to_i
-  frame3 = roll + roll2
+  frame_score = roll + roll2
   if on_strike == 1 # Finish previous X math
     on_strike -= 1
-    score_arr[frame - 2] += frame3
-    score_arr[frame - 1] = frame3
+    score_arr[frame - 2] += frame_score
+    score_arr[frame - 1] = frame_score
     if frame3 == 10 # Spare
       on_spare = true
     end
   else # Spare or open frame
-    score_arr[frame - 1] = frame3
-    if frame3 == 10 # Spare
+    score_arr[frame - 1] = frame_score
+    if frame_score == 10 # Spare
       on_spare = true
     end
   end
@@ -157,17 +158,17 @@ else # Roll < 10
     on_spare = false
   end
   roll2 = prompt.ask("How many pins did you knock down on your second ball?").to_i
-  frame4 = roll + roll2
+  frame_score = roll + roll2
   if on_strike == 1 # Finish previous X math
     on_strike -= 1
-    score_arr[frame - 2] += frame4
-    score_arr[frame - 1] = frame4
-    if frame4 == 10 # Spare
+    score_arr[frame - 2] += frame_score
+    score_arr[frame - 1] = frame_score
+    if frame_score == 10 # Spare
       on_spare = true
     end
   else # Spare or open frame
-    score_arr[frame - 1] = frame4
-    if frame4 == 10 # Spare
+    score_arr[frame - 1] = frame_score
+    if frame_score == 10 # Spare
       on_spare = true
     end
   end
