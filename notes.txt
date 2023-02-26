@@ -1,4 +1,5 @@
 You should be able to condense code for frames 1-9 into a loop
+- Consider looping through 10; add case for third ball (logic appears to be matching)
 Consider the algebra of the various cases
 
 Frame 10 will require some noodling
