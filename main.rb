@@ -79,10 +79,7 @@ if roll == 10 # STRIKE ON BALL 1
   if on_strike == 2 # Close out first X math
     score_arr[frame - 3] += roll
     score_arr[frame - 2] += roll
-  elsif on_strike == 1 # Double
-    score_arr[frame - 2] += roll
-    on_strike += 1
-  elsif on_spare # Close out spare math
+  elsif on_strike == 1 || on_spare
     score_arr[frame - 2] += roll
     on_strike += 1
     on_spare = false
@@ -106,12 +103,10 @@ else # Roll < 10
   end
   roll2 = prompt.ask("How many pins did you knock down on your second ball?").to_i
   frame_score = roll + roll2
+  score_arr[frame - 1] = frame_score
   if on_strike == 1 # Close out X in 9th
     score_arr[frame - 2] += frame_score
-    score_arr[frame - 1] = frame_score
-    on_strike -= 1
-  else # Spare or open frame
-    score_arr[frame - 1] = frame_score
+    on_strike -= 1 # Might be able to remove; keep when testing new game
   end
   if frame_score == 10 # Spare
     roll3 = prompt.ask("How many pins did you knock down on your third ball?").to_i
