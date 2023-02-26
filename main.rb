@@ -21,26 +21,23 @@ while frame < 10
   system "clear"
   puts "SCORE: #{score(score_arr)}"
   p score_arr
-  puts "STRIKE: #{on_strike}"
-  puts "SPARE: #{on_spare}"
-  puts "FRAME #{frame}" #FRAME 4
+  puts "STRIKE: #{on_strike}" # Remove after testing
+  puts "SPARE: #{on_spare}" # Remove after testing
+  puts "FRAME #{frame}" #Remove after testing
   roll = prompt.ask("How many pins did you knock down on your first ball?").to_i
-  if roll == 10 # STRIKE
-    if on_strike == 2 # Close out first X math
-      score_arr[frame - 3] += roll
-      score_arr[frame - 2] += roll
-      score_arr[frame - 1] = roll
-    elsif on_strike == 1 # Double
-      score_arr[frame - 2] += roll
-      score_arr[frame - 1] = roll
+  if roll == 10
+    score_arr[frame - 1] = roll # STRIKE
+    if on_strike == 2
+      score_arr[frame - 3] += roll # Turkey (XXX)
+      score_arr[frame - 2] += roll # Add to previous frame's X
+    elsif on_strike == 1
+      score_arr[frame - 2] += roll # Add to previous frame's X
       on_strike += 1
-    elsif on_spare # Close out spare math
-      score_arr[frame - 2] += roll
-      score_arr[frame - 1] = roll
+    elsif on_spare
+      score_arr[frame - 2] += roll # Add to previous frame's spare
       on_strike += 1
       on_spare = false
     else
-      score_arr[frame - 1] = roll # First strike
       on_strike += 1
     end
   else # Roll < 10
