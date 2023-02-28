@@ -6,6 +6,7 @@ score = 0
 on_strike = 0
 on_spare = false
 frame = 1
+ball = 1
 
 def score(arr)
   score = 0
@@ -13,6 +14,9 @@ def score(arr)
     score += frame
   end
   return score
+end
+
+def input_correct(roll)
 end
 
 def print(score_arr, on_strike, on_spare, frame)
@@ -27,7 +31,7 @@ end
 10.times do
   print(score_arr, on_strike, on_spare, frame)
   # FIRST BALL
-  roll = prompt.ask("FIRST BALL:").to_i
+  roll = prompt.ask("BALL #{ball}:").to_i
   score_arr[frame - 1] = roll
   if on_strike == 2
     score_arr[frame - 3] += roll
@@ -43,10 +47,14 @@ end
   if roll == 10 && on_strike < 2
     on_strike += 1
   end
+
+  if roll < 10 || frame == 10
+    ball = 2
+  end
   print(score_arr, on_strike, on_spare, frame)
   # SECOND BALL
   if roll < 10 || frame == 10
-    roll2 = prompt.ask("SECOND BALL:").to_i
+    roll2 = prompt.ask("BALL #{ball}:").to_i
     score_arr[frame - 1] += roll2
     if on_strike == 2
       score_arr[frame - 2] += roll2 # Close out X in 9th
@@ -64,8 +72,12 @@ end
     end
   end
 
+  ball = 1
+
   if frame == 10 && (on_spare || on_strike > 0)
-    roll3 = prompt.ask("THIRD BALL:").to_i
+    ball = 3
+    print(score_arr, on_strike, on_spare, frame)
+    roll3 = prompt.ask("BALL #{ball}:").to_i
     score_arr[frame - 1] += roll3 # Final ball
   end
 
