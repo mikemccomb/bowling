@@ -16,7 +16,25 @@ def score(arr)
   return score
 end
 
-def input_correct(roll)
+def input_correct(ball, roll)
+  if ball == 1
+    # If roll > 10, retry
+    # If roll = 10, "nice strike"
+    # If roll = X, "nice strike"; mark it 10
+    # If roll = F or -, MARK IT ZERO!
+  end
+
+  if ball == 2
+    # If roll + roll2 > 10, retry
+    # If roll + roll2 = 10, "nice spare"
+    # If roll + roll2 = /, "nice spare"; roll2 = 10 - roll
+    # If roll = F or -, MARK IT ZERO!
+  end
+
+  if ball == 3
+    # If roll3 > 10, retry
+    # If on_strike = 1, roll2 + roll3 <= 10
+  end
 end
 
 def print(score_arr, on_strike, on_spare, frame)
@@ -58,13 +76,14 @@ end
     score_arr[frame - 1] += roll2
     if on_strike == 2
       score_arr[frame - 2] += roll2 # Close out X in 9th
+      if frame < 10 || (frame == 10 && roll2 < 10)
+        on_strike -= 1
+      end
+    elsif on_strike == 1
+      score_arr[frame - 2] += roll2
       if frame < 10
         on_strike -= 1
       end
-    end
-    if on_strike == 1
-      score_arr[frame - 2] += roll2
-      on_strike -= 1
     end
     # SPARE ANY FRAME
     if roll + roll2 == 10 # Spare
