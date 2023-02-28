@@ -29,8 +29,9 @@ frame_score = 0
 while frame < 10
   print(score_arr, on_strike, on_spare, frame)
   roll = prompt.ask("FIRST BALL:").to_i
+  score_arr[frame - 1] = roll
   if roll == 10
-    score_arr[frame - 1] = roll # STRIKE
+    # score_arr[frame - 1] = roll # STRIKE
     if on_strike == 2
       score_arr[frame - 3] += roll # Turkey (XXX)
       score_arr[frame - 2] += roll # Add to previous frame's X
@@ -50,17 +51,17 @@ while frame < 10
       on_spare = false
     end
     roll2 = prompt.ask("SECOND BALL:").to_i
-    frame_score = roll + roll2
+    score_arr[frame - 1] += roll2
     if on_strike == 1 # Finish previous X math
       on_strike -= 1
-      score_arr[frame - 2] += frame_score
-      score_arr[frame - 1] = frame_score
-      if frame_score == 10 # Spare
+      score_arr[frame - 2] += roll2
+      # score_arr[frame - 1] += roll2
+      if roll + roll2 == 10 # Spare
         on_spare = true
       end
     else # Spare or open frame
-      score_arr[frame - 1] = frame_score
-      if frame_score == 10 # Spare
+      # score_arr[frame - 1] += roll2
+      if roll + roll2 == 10 # Spare
         on_spare = true
       end
     end
