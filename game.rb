@@ -20,7 +20,7 @@ class Game
   end
 
   def print
-    system "clear"
+    # system "clear"
     puts "SCORE: #{score(@score_arr)}"
     p @score_arr
     @frame < 11 ? (puts "FRAME #{@frame}") : (puts "GAME OVER")
@@ -57,8 +57,22 @@ class Game
 
     return roll.to_i
   end
+
+  # def score_roll(roll, score_arr)
+  #   if @ball == 1
+  #     score_arr[@frame - 1] = roll
+  #   else
+  #     score_arr[@frame - 1] += roll
+  #   end
+
+  #   return @score_arr
+  # end
 end
 
-# test = Game.new
-# @score_arr = [10, 20, 10]
-# puts test.print
+test = Game.new
+@frame = 1
+@ball = 2
+@score_arr = [7]
+roll = 2
+puts test.score_roll(roll, @score_arr)
+test.print

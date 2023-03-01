@@ -9,14 +9,6 @@ game = Game.new
 # frame = 1
 # ball = 1
 
-# def score(arr)
-#   score = 0
-#   arr.each do |frame|
-#     score += frame
-#   end
-#   return score
-# end
-
 # def roll(ball, first)
 #   prompt = TTY::Prompt.new
 #   ask = true
@@ -47,21 +39,12 @@ game = Game.new
 #   return roll = roll.to_i
 # end
 
-# def game.print
-#   system "clear"
-#   puts "SCORE: #{score(score_arr)}"
-#   p score_arr
-#   frame < 11 ? (puts "FRAME #{frame}") : (puts "GAME OVER")
-#   puts "STRIKE: #{on_strike}"
-#   puts "SPARE: #{on_spare}"
-# end
-
 10.times do
   game.print
-  # game.print
   # FIRST BALL
   roll = game.roll(0)
-  score_arr[frame - 1] = roll
+  game.score_roll(roll)
+  # score_arr[frame - 1] = roll
   if on_strike == 2
     score_arr[frame - 3] += roll
     score_arr[frame - 2] += roll
