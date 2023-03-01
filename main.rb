@@ -73,21 +73,21 @@ end
   print(score_arr, on_strike, on_spare, frame)
   # SECOND BALL
   if roll < 10 || frame == 10
-    roll2 = prompt.ask("BALL #{ball}:").to_i
-    score_arr[frame - 1] += roll2
+    roll = prompt.ask("BALL #{ball}:").to_i
+    score_arr[frame - 1] += roll
     if on_strike == 2
-      score_arr[frame - 2] += roll2 # Close out X in 9th
-      if frame < 10 || (frame == 10 && roll2 < 10)
+      score_arr[frame - 2] += roll # Close out X in 9th
+      if frame < 10 || (frame == 10 && roll < 10)
         on_strike -= 1
       end
     elsif on_strike == 1
-      score_arr[frame - 2] += roll2
+      score_arr[frame - 2] += roll
       if frame < 10
         on_strike -= 1
       end
     end
     # SPARE ANY FRAME
-    if roll + roll2 == 10 # Spare
+    if score_arr[frame - 1] == 10 && ball == 2
       on_spare = true
     end
   end
@@ -97,8 +97,8 @@ end
   if frame == 10 && (on_spare || on_strike > 0)
     ball = 3
     print(score_arr, on_strike, on_spare, frame)
-    roll3 = prompt.ask("BALL #{ball}:").to_i
-    score_arr[frame - 1] += roll3 # Final ball
+    roll = prompt.ask("BALL #{ball}:").to_i
+    score_arr[frame - 1] += roll # Final ball
   end
 
   if frame < 10
