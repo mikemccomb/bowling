@@ -1,6 +1,5 @@
 require "tty-prompt"
 
-prompt = TTY::Prompt.new
 score_arr = []
 score = 0
 on_strike = 0
@@ -14,6 +13,19 @@ def score(arr)
     score += frame
   end
   return score
+end
+
+def roll(ball)
+  prompt = TTY::Prompt.new
+  roll = prompt.ask("BALL #{ball}:")
+  if roll.to_i == 10 || roll.upcase == "X"
+    puts "Nice strike!"
+    return roll = 10
+  elsif roll.upcase == "F" || roll == "-"
+    return roll = 0
+  else
+    return roll = roll.to_i
+  end
 end
 
 # def input_correct(ball, roll)
@@ -50,7 +62,8 @@ end
 10.times do
   print(score_arr, on_strike, on_spare, frame)
   # FIRST BALL
-  roll = prompt.ask("BALL #{ball}:").to_i
+  # roll = prompt.ask("BALL #{ball}:").to_i
+  roll = roll(ball)
   score_arr[frame - 1] = roll
   if on_strike == 2
     score_arr[frame - 3] += roll
@@ -73,7 +86,8 @@ end
   print(score_arr, on_strike, on_spare, frame)
   # SECOND BALL
   if roll < 10 || frame == 10
-    roll = prompt.ask("BALL #{ball}:").to_i
+    # roll = prompt.ask("BALL #{ball}:").to_i
+    roll = roll(ball)
     score_arr[frame - 1] += roll
     if on_strike == 2
       score_arr[frame - 2] += roll # Close out X in 9th
@@ -97,7 +111,8 @@ end
   if frame == 10 && (on_spare || on_strike > 0)
     ball = 3
     print(score_arr, on_strike, on_spare, frame)
-    roll = prompt.ask("BALL #{ball}:").to_i
+    # roll = prompt.ask("BALL #{ball}:").to_i
+    roll = roll(ball)
     score_arr[frame - 1] += roll # Final ball
   end
 
