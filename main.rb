@@ -1,19 +1,21 @@
 require "tty-prompt"
+require "./game.rb"
 
-score_arr = []
-score = 0
-on_strike = 0
-on_spare = false
-frame = 1
-ball = 1
+game = Game.new
+# score_arr = []
+# score = 0
+# on_strike = 0
+# on_spare = false
+# frame = 1
+# ball = 1
 
-def score(arr)
-  score = 0
-  arr.each do |frame|
-    score += frame
-  end
-  return score
-end
+# def score(arr)
+#   score = 0
+#   arr.each do |frame|
+#     score += frame
+#   end
+#   return score
+# end
 
 def roll(ball, first)
   prompt = TTY::Prompt.new
@@ -45,17 +47,18 @@ def roll(ball, first)
   return roll = roll.to_i
 end
 
-def print(score_arr, on_strike, on_spare, frame)
-  system "clear"
-  puts "SCORE: #{score(score_arr)}"
-  p score_arr
-  frame < 11 ? (puts "FRAME #{frame}") : (puts "GAME OVER")
-  puts "STRIKE: #{on_strike}"
-  puts "SPARE: #{on_spare}"
-end
+# def print(score_arr, on_strike, on_spare, frame)
+#   system "clear"
+#   puts "SCORE: #{score(score_arr)}"
+#   p score_arr
+#   frame < 11 ? (puts "FRAME #{frame}") : (puts "GAME OVER")
+#   puts "STRIKE: #{on_strike}"
+#   puts "SPARE: #{on_spare}"
+# end
 
 10.times do
-  print(score_arr, on_strike, on_spare, frame)
+  game.print
+  # print(score_arr, on_strike, on_spare, frame)
   # FIRST BALL
   roll = roll(ball, 0)
   score_arr[frame - 1] = roll
