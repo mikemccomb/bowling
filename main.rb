@@ -13,28 +13,15 @@ game = Game.new
   game.update_mark(ball, roll)
   ball = game.second_ball # Determines if second ball
   game.print
+
   # SECOND BALL
   if ball == 2
     roll = game.second_roll # Returns value for 2nd roll
     game.score_roll(roll, 2)
     game.print
-    # score_arr[-1] += roll
-    # Need to add to on_mark logic
-    # if on_strike == 2
-    #   score_arr[-2] += roll
-    #   if frame < 10 || (frame == 10 && roll < 10)
-    #     on_strike -= 1
-    #   end
-    # elsif on_strike == 1
-    #   score_arr[-2] += roll
-    #   if frame < 10
-    #     on_strike -= 1
-    #   end
-    # end
-    # # SPARE ANY FRAME
-    # (score_arr[-1] == 10 && ball == 2) ? on_spare = true : on_spare = false
   end
 
+  # THIRD BALL (TENTH FRAME)
   ball = game.third_ball
   if ball == 3
     game.third_roll # NEED TO BUILD

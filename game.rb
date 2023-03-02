@@ -5,23 +5,20 @@ class Game
 
   def initialize
     @score_arr = []
-    @score = 0
     @on_strike = 0
     @on_spare = false
     @frame = 1
     @ball = 1
   end
 
-  def score(arr) # Not mathing correctly
-    arr.each do |frame|
-      @score += frame
-    end
-    return @score
-  end
+  # def score # Sums elements within array
+  #   @score = @score_arr.sum
+  #   return @score
+  # end
 
-  def print
+  def print # Recalc's @score with each print
     # system "clear"
-    puts "SCORE: #{score(@score_arr)}"
+    puts "SCORE: #{@score_arr.sum}"
     p @score_arr
     puts "BALL: #{@ball}"
     @frame < 11 ? (puts "FRAME #{@frame}") : (puts "GAME OVER")
