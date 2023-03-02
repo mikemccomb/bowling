@@ -42,9 +42,9 @@ game = Game.new
 10.times do
   game.print
   # FIRST BALL
-  roll = game.roll(0)
+  ball = 1
+  roll = game.first_roll
   game.score_roll(roll)
-  # score_arr[frame - 1] = roll
   game.on_mark(roll)
   # if on_strike == 2
   #   score_arr[frame - 3] += roll
@@ -64,10 +64,10 @@ game = Game.new
   #   ball = 2
   #   frame_score = roll
   # end
-  game.second_ball
+  ball = game.second_ball
   game.print
   # SECOND BALL
-  if @ball == 2
+  if ball == 2
     roll = game.roll(frame_score)
     score_arr[frame - 1] += roll
     if on_strike == 2
@@ -86,14 +86,14 @@ game = Game.new
   end
 
   ball = 1
-
-  if frame == 10 && (on_spare || on_strike > 0)
-    ball = 3
-    game.print
-    roll = game.roll(score_arr[frame - 1])
-    score_arr[frame - 1] += roll # Final ball
-  end
-  frame += 1
+  game.third_ball
+  # if frame == 10 && (on_spare || on_strike > 0)
+  #   ball = 3
+  #   game.print
+  #   roll = game.roll(score_arr[frame - 1])
+  #   score_arr[frame - 1] += roll # Final ball
+  # end
+  # @frame += 1
 end
 
 game.print

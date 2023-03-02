@@ -23,12 +23,13 @@ class Game
     # system "clear"
     puts "SCORE: #{score(@score_arr)}"
     p @score_arr
+    puts "BALL: #{@ball}"
     @frame < 11 ? (puts "FRAME #{@frame}") : (puts "GAME OVER")
     puts "STRIKE: #{@on_strike}"
     puts "SPARE: #{@on_spare}"
   end
 
-  def roll(first)
+  def first_roll
     prompt = TTY::Prompt.new
     ask = true
     while ask
@@ -38,17 +39,12 @@ class Game
         return 0
       end
       # Alt to player entering 10 for a strike
-      if roll.upcase == "X"
+      if roll.upcase == "X" || roll.to_i == 10
         puts "Nice strike!"
         return 10
       end
-      # Alts for player entering a spare
-      if @ball == 2 && ((roll.to_i + first == 10) || roll == "/")
-        puts "Nice spare!"
-        return 10 - first
-      end
       # Player enters an incorrect value
-      if roll.to_i > 10 || (@ball == 1 && roll == "/") || (@ball == 2 && (roll.to_i + first > 10)) || (@ball == 3 && ((roll.to_i + first) > 30))
+      if roll.to_i > 10 || roll == "/"
         puts "Error. Please re-enter score."
       else
         ask = false
@@ -59,22 +55,48 @@ class Game
   end
 
   def second_ball
-    if @ball == 1 && (@score_arr[@frame - 1] < 10)
-      @ball == 2
-    end
-
-    if @frame == 10
-      if @ball == 1
-        @ball == 2
-      elsif @ball == 2 && (@on_spare || @on_strike)
-        @ball == 3
-      end
+    if (@score_arr[-1] < 10) || @frame == 10
+      @ball = 2
     end
 
     return @ball
   end
 
+  def second_roll
+    prompt = TTY::Prompt.new
+    ask = true
+    while ask
+      roll = prompt.ask("BALL #{@ball}:")
+      # Alts to player entering 0
+      if roll.upcase == "F" || roll == "-"
+        return 0
+      end
+      # Alt to player entering 10 for a strike
+      if roll.upcase == "X" || roll.to_i == 10
+        puts "Nice strike!"
+        return 10
+      end
+      # Player enters an incorrect value
+      if roll.to_i > 10 || roll == "/"
+        puts "Error. Please re-enter score."
+      else
+        ask = false
+      end
+    end
+
+    return roll.to_i
+  end
+
   def third_ball
+    if @frame == 10 && (@on_spare || @on_strike)
+      @ball == 3
+    end
+    return @ball
+  end
+
+  def third_roll
+    print
+    @score_arr[@frame - 1] = roll(@score_arr[@frame - 1])
   end
 
   def score_roll(roll)
@@ -112,3 +134,14 @@ end
 # roll = 2
 # puts test.score_roll(roll, @score_arr)
 # test.print
+
+#Second Roll
+# # Alts for player entering a spare
+# if @ball == 2 && ((roll.to_i + first == 10) || roll == "/")
+#   puts "Nice spare!"
+#   return 10 - first
+# end
+
+# # Player enters an incorrect value
+# if roll.to_i > 10 || (@ball == 1 && roll == "/") || (@ball == 2 && (roll.to_i + first > 10)) || (@ball == 3 && ((roll.to_i + first) > 30))
+#   puts "Error. Please re-enter score."
