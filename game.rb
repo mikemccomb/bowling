@@ -12,7 +12,7 @@ class Game
     @ball = 1
   end
 
-  def score(arr)
+  def score(arr) # Not mathing correctly
     arr.each do |frame|
       @score += frame
     end
@@ -56,10 +56,8 @@ class Game
 
   def second_ball
     if (@score_arr[-1] < 10) || @frame == 10
-      @ball = 2
+      return 2
     end
-
-    return @ball
   end
 
   def second_roll
@@ -89,18 +87,17 @@ class Game
 
   def third_ball
     if @frame == 10 && (@on_spare || @on_strike)
-      @ball == 3
+      return 3
     end
-    return @ball
   end
 
-  def third_roll
+  def third_roll #Build logic
     print
     @score_arr[@frame - 1] = roll(@score_arr[@frame - 1])
   end
 
-  def score_roll(roll)
-    if @ball == 1
+  def score_roll(roll, ball)
+    if ball == 1
       @score_arr << roll
     else
       @score_arr[-1] += roll
@@ -109,7 +106,7 @@ class Game
     return @score_arr
   end
 
-  def on_mark(roll)
+  def on_mark(roll) # Might need ball as param
     if @on_strike == 2
       @score_arr[-3] += roll
       @score_arr[-2] += roll
@@ -153,14 +150,3 @@ end
 # roll = 2
 # puts test.score_roll(roll, @score_arr)
 # test.print
-
-#Second Roll
-# # Alts for player entering a spare
-# if @ball == 2 && ((roll.to_i + first == 10) || roll == "/")
-#   puts "Nice spare!"
-#   return 10 - first
-# end
-
-# # Player enters an incorrect value
-# if roll.to_i > 10 || (@ball == 1 && roll == "/") || (@ball == 2 && (roll.to_i + first > 10)) || (@ball == 3 && ((roll.to_i + first) > 30))
-#   puts "Error. Please re-enter score."
