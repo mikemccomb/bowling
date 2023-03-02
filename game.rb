@@ -58,11 +58,30 @@ class Game
     return roll.to_i
   end
 
+  def second_ball
+    if @ball == 1 && (@score_arr[@frame - 1] < 10)
+      @ball == 2
+    end
+
+    if @frame == 10
+      if @ball == 1
+        @ball == 2
+      elsif @ball == 2 && (@on_spare || @on_strike)
+        @ball == 3
+      end
+    end
+
+    return @ball
+  end
+
+  def third_ball
+  end
+
   def score_roll(roll)
     if @ball == 1
-      score_arr[@frame - 1] = roll
+      @score_arr[@frame - 1] = roll
     else
-      score_arr[@frame - 1] += roll
+      @score_arr[@frame - 1] += roll
     end
 
     return @score_arr

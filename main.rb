@@ -60,14 +60,15 @@ game = Game.new
   # if roll == 10 && on_strike < 2
   #   on_strike += 1
   # end
-  game.print
-  if roll < 10 || frame == 10
-    ball = 2
-  end
+  # if roll < 10 || frame == 10
+  #   ball = 2
+  #   frame_score = roll
+  # end
+  game.second_ball
   game.print
   # SECOND BALL
-  if ball == 2
-    roll = game.roll(@score_arr[@frame - 1])
+  if @ball == 2
+    roll = game.roll(frame_score)
     score_arr[frame - 1] += roll
     if on_strike == 2
       score_arr[frame - 2] += roll
