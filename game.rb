@@ -107,46 +107,25 @@ class Game
   end
 
   def on_mark(roll) # Might need ball as param
-    if @on_strike == 2
-      @score_arr[-3] += roll
+    if @on_strike > 0 || @on_spare
       @score_arr[-2] += roll
-      if roll < 10
-        @on_strike -= 1
+      if @on_strike == 2
+        @score_arr[-3] += roll
       end
-    elsif @on_strike == 1 || @on_spare
-      @score_arr[-2] += roll
-      @on_spare = false
-    end
-
-    if roll == 10 && @on_strike < 2
-      @on_strike += 1
     end
   end
 
-  # if on_strike == 2
-  #   score_arr[frame - 3] += roll
-  #   score_arr[frame - 2] += roll
-  #   if roll < 10
-  #     on_strike -= 1
-  #   end
-  # elsif on_strike == 1 || on_spare
-  #   score_arr[frame - 2] += roll
-  #   on_spare = false
-  # end
-  # IF STRIKE
-  # if roll == 10 && on_strike < 2
-  #   on_strike += 1
-  # end
-  # if roll < 10 || frame == 10
-  #   ball = 2
-  #   frame_score = roll
-  # end
-end
+  def update_mark(ball, roll) # Watch out for frame 10
+    if ball == 1
+      if roll == 10 && @on_strike < 2
+        @on_strike += 1
+      elsif @on_strike > 0 && roll < 10
+        @on_strike -= 1
+      end
+    end
 
-# test = Game.new
-# @frame = 1
-# @ball = 2
-# @score_arr = [7]
-# roll = 2
-# puts test.score_roll(roll, @score_arr)
-# test.print
+    if ball == 2 && @score_arr[-1] == 10
+      @on_spare = true
+    end
+  end
+end
