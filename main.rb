@@ -46,43 +46,26 @@ game = Game.new
   roll = game.first_roll
   game.score_roll(roll)
   game.on_mark(roll)
-  # if on_strike == 2
-  #   score_arr[frame - 3] += roll
-  #   score_arr[frame - 2] += roll
-  #   if roll < 10
-  #     on_strike -= 1
-  #   end
-  # elsif on_strike == 1 || on_spare
-  #   score_arr[frame - 2] += roll
-  #   on_spare = false
-  # end
-  # IF STRIKE
-  # if roll == 10 && on_strike < 2
-  #   on_strike += 1
-  # end
-  # if roll < 10 || frame == 10
-  #   ball = 2
-  #   frame_score = roll
-  # end
   ball = game.second_ball
   game.print
   # SECOND BALL
   if ball == 2
-    roll = game.roll(frame_score)
-    score_arr[frame - 1] += roll
+    roll = game.second_roll
+    game.score_roll(roll)
+    # score_arr[-1] += roll
     if on_strike == 2
-      score_arr[frame - 2] += roll
+      score_arr[-2] += roll
       if frame < 10 || (frame == 10 && roll < 10)
         on_strike -= 1
       end
     elsif on_strike == 1
-      score_arr[frame - 2] += roll
+      score_arr[-2] += roll
       if frame < 10
         on_strike -= 1
       end
     end
     # SPARE ANY FRAME
-    (score_arr[frame - 1] == 10 && ball == 2) ? on_spare = true : on_spare = false
+    (score_arr[-1] == 10 && ball == 2) ? on_spare = true : on_spare = false
   end
 
   ball = 1

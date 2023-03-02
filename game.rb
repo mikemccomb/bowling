@@ -71,13 +71,13 @@ class Game
       if roll.upcase == "F" || roll == "-"
         return 0
       end
-      # Alt to player entering 10 for a strike
-      if roll.upcase == "X" || roll.to_i == 10
-        puts "Nice strike!"
-        return 10
+      # Acknowledge spare
+      if roll == "/" || (roll.to_i + @score_arr[-1] == 10)
+        puts "Nice spare!"
+        return roll.to_i
       end
       # Player enters an incorrect value
-      if roll.to_i > 10 || roll == "/"
+      if ((roll.to_i + @score_arr[-1]) > 10) || roll == "X"
         puts "Error. Please re-enter score."
       else
         ask = false
@@ -101,9 +101,9 @@ class Game
 
   def score_roll(roll)
     if @ball == 1
-      @score_arr[@frame - 1] = roll
+      @score_arr << roll
     else
-      @score_arr[@frame - 1] += roll
+      @score_arr[-1] += roll
     end
 
     return @score_arr
@@ -111,13 +111,13 @@ class Game
 
   def on_mark(roll)
     if @on_strike == 2
-      @score_arr[@frame - 3] += roll
-      @score_arr[@frame - 2] += roll
+      @score_arr[-3] += roll
+      @score_arr[-2] += roll
       if roll < 10
         @on_strike -= 1
       end
     elsif @on_strike == 1 || @on_spare
-      @score_arr[@frame - 2] += roll
+      @score_arr[-2] += roll
       @on_spare = false
     end
 
@@ -125,6 +125,25 @@ class Game
       @on_strike += 1
     end
   end
+
+  # if on_strike == 2
+  #   score_arr[frame - 3] += roll
+  #   score_arr[frame - 2] += roll
+  #   if roll < 10
+  #     on_strike -= 1
+  #   end
+  # elsif on_strike == 1 || on_spare
+  #   score_arr[frame - 2] += roll
+  #   on_spare = false
+  # end
+  # IF STRIKE
+  # if roll == 10 && on_strike < 2
+  #   on_strike += 1
+  # end
+  # if roll < 10 || frame == 10
+  #   ball = 2
+  #   frame_score = roll
+  # end
 end
 
 # test = Game.new
