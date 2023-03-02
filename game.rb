@@ -58,21 +58,38 @@ class Game
     return roll.to_i
   end
 
-  # def score_roll(roll, score_arr)
-  #   if @ball == 1
-  #     score_arr[@frame - 1] = roll
-  #   else
-  #     score_arr[@frame - 1] += roll
-  #   end
+  def score_roll(roll)
+    if @ball == 1
+      score_arr[@frame - 1] = roll
+    else
+      score_arr[@frame - 1] += roll
+    end
 
-  #   return @score_arr
-  # end
+    return @score_arr
+  end
+
+  def on_mark(roll)
+    if @on_strike == 2
+      @score_arr[@frame - 3] += roll
+      @score_arr[@frame - 2] += roll
+      if roll < 10
+        @on_strike -= 1
+      end
+    elsif @on_strike == 1 || @on_spare
+      @score_arr[@frame - 2] += roll
+      @on_spare = false
+    end
+
+    if roll == 10 && @on_strike < 2
+      @on_strike += 1
+    end
+  end
 end
 
-test = Game.new
-@frame = 1
-@ball = 2
-@score_arr = [7]
-roll = 2
-puts test.score_roll(roll, @score_arr)
-test.print
+# test = Game.new
+# @frame = 1
+# @ball = 2
+# @score_arr = [7]
+# roll = 2
+# puts test.score_roll(roll, @score_arr)
+# test.print
