@@ -18,14 +18,15 @@ game = Game.new
   if ball == 2
     roll = game.second_roll # Returns value for 2nd roll
     game.score_roll(roll, 2)
+    game.on_mark(roll)
     game.print
   end
 
   # THIRD BALL (TENTH FRAME)
   ball = game.third_ball
-  if ball == 3
-    game.third_roll # NEED TO BUILD
-  end
+  # if ball == 3
+  #   game.third_roll # NEED TO BUILD
+  # end
 end
 
 game.print

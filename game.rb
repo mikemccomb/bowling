@@ -17,7 +17,7 @@ class Game
   # end
 
   def print # Recalc's @score with each print
-    # system "clear"
+    system "clear"
     puts "SCORE: #{@score_arr.sum}"
     p @score_arr
     puts "BALL: #{@ball}"
@@ -52,7 +52,7 @@ class Game
     return roll.to_i
   end
 
-  def second_ball(roll) # Not working
+  def second_ball(roll)
     if (roll < 10) || @frame == 10
       @ball = 2
     end
@@ -88,12 +88,13 @@ class Game
       @ball = 3
     else
       @ball = 1
+      @frame += 1
     end
   end
 
   def third_roll #Build logic
     print
-    @score_arr[@frame - 1] = roll(@score_arr[@frame - 1])
+    @score_arr[-1] = roll(@score_arr[-1])
   end
 
   def score_roll(roll, ball)
@@ -106,12 +107,28 @@ class Game
     return @score_arr
   end
 
-  def on_mark(roll) # Might need ball as param
+  # def on_mark(roll) # Might need ball as param
+  #   if @on_strike > 0 || @on_spare
+  #     @score_arr[-2] += roll
+  #     if @on_strike == 2
+  #       @score_arr[-3] += roll
+  #     end
+  #   end
+  # end
+
+  def on_mark(roll)
     if @on_strike > 0 || @on_spare
       @score_arr[-2] += roll
-      if @on_strike == 2
-        @score_arr[-3] += roll
-      end
+    end
+
+    if @on_strike == 2
+      @score_arr[-3] += roll
+    end
+
+    if @on_strike == 0 && @score_arr[-1] == 10
+      @on_spare = true
+    else
+      @on_spare = false
     end
   end
 
