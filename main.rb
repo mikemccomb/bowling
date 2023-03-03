@@ -7,8 +7,8 @@ game = Game.new
   game.print
   # FIRST BALL
   ball = 1
-  roll = game.first_roll # Returns value for 1st roll
-  game.score_roll(roll, 1) # Adds roll value to array
+  roll = game.first_roll
+  game.score_roll(roll)
   game.on_mark(roll) # TEST: perform strike/spare math
   game.update_mark(ball, roll)
   ball = game.second_ball(roll) # Determines if second ball
@@ -17,7 +17,7 @@ game = Game.new
   # SECOND BALL
   if ball == 2
     roll = game.second_roll # Returns value for 2nd roll
-    game.score_roll(roll, 2)
+    game.score_roll(roll)
     game.on_mark(roll)
     game.print
   end

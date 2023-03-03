@@ -11,12 +11,7 @@ class Game
     @ball = 1
   end
 
-  # def score # Sums elements within array
-  #   @score = @score_arr.sum
-  #   return @score
-  # end
-
-  def print # Recalc's @score with each print
+  def print
     system "clear"
     puts "SCORE: #{@score_arr.sum}"
     p @score_arr
@@ -97,8 +92,8 @@ class Game
     @score_arr[-1] = roll(@score_arr[-1])
   end
 
-  def score_roll(roll, ball)
-    if ball == 1
+  def score_roll(roll)
+    if @ball == 1
       @score_arr << roll
     else
       @score_arr[-1] += roll
@@ -106,15 +101,6 @@ class Game
 
     return @score_arr
   end
-
-  # def on_mark(roll) # Might need ball as param
-  #   if @on_strike > 0 || @on_spare
-  #     @score_arr[-2] += roll
-  #     if @on_strike == 2
-  #       @score_arr[-3] += roll
-  #     end
-  #   end
-  # end
 
   def on_mark(roll)
     if @on_strike > 0 || @on_spare
