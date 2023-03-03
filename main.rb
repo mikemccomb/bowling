@@ -11,7 +11,7 @@ game = Game.new
   game.score_roll(roll, 1) # Adds roll value to array
   game.on_mark(roll) # TEST: perform strike/spare math
   game.update_mark(ball, roll)
-  ball = game.second_ball # Determines if second ball
+  ball = game.second_ball(roll) # Determines if second ball
   game.print
 
   # SECOND BALL

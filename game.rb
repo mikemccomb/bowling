@@ -29,6 +29,7 @@ class Game
   def first_roll
     prompt = TTY::Prompt.new
     ask = true
+    @ball = 1
     while ask
       roll = prompt.ask("BALL #{@ball}:")
       # Alts to player entering 0
@@ -51,9 +52,9 @@ class Game
     return roll.to_i
   end
 
-  def second_ball
-    if (@score_arr[-1] < 10) || @frame == 10
-      return 2
+  def second_ball(roll) # Not working
+    if (roll < 10) || @frame == 10
+      @ball = 2
     end
   end
 
@@ -82,9 +83,11 @@ class Game
     return roll.to_i
   end
 
-  def third_ball
+  def third_ball # Probably not working (see second_ball)
     if @frame == 10 && (@on_spare || @on_strike)
-      return 3
+      @ball = 3
+    else
+      @ball = 1
     end
   end
 
