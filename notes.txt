@@ -14,8 +14,8 @@ Need to build a failsafe if user enters:
 Eventually split this out into classes/methods
 
 Display as a score card:
-|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][][]|
-| ## | ## | ## | ## | ## | ## | ## | ## | ## | ###  |
+NAME |[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][][]|
+SCORE| ## | ## | ## | ## | ## | ## | ## | ## | ## | ###  |
 
 Congratulate closed frames
 

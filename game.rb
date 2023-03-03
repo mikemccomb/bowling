@@ -83,13 +83,15 @@ class Game
     return roll.to_i
   end
 
-  def third_ball # Probably not working (see second_ball)
+  def third_ball
     if @frame == 10 && (@on_spare || @on_strike)
       @ball = 3
     else
       @ball = 1
       @frame += 1
     end
+
+    return @ball
   end
 
   def third_roll #Build logic
