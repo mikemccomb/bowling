@@ -24,9 +24,10 @@ game = Game.new
 
   # THIRD BALL (TENTH FRAME)
   ball = game.third_ball
-  # if ball == 3
-  #   game.third_roll # NEED TO BUILD
-  # end
+  if ball == 3
+    roll = game.third_roll
+    game.score_roll(roll)
+  end
 end
 
 game.print

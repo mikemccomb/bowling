@@ -50,7 +50,7 @@ class Game
     return roll.to_i
   end
 
-  def second_ball(roll)
+  def second_ball(roll) # Consolidate with third_ball
     if (roll < 10) || @frame == 10
       @ball = 2
     end
@@ -64,6 +64,11 @@ class Game
       # Alts to player entering 0
       if roll.upcase == "F" || roll == "-"
         return 0
+      end
+      # Tenth frame 2nd strike
+      if @frame == 10 && @on_strike > 0 && (roll.upcase == "X" || roll.to_i == 10)
+        @test_arr << "X"
+        return 10
       end
       # Acknowledge spare
       if roll == "/" || (roll.to_i + @score_arr[-1] == 10)
@@ -94,9 +99,44 @@ class Game
     return @ball
   end
 
-  def third_roll #Build logic
+  def third_roll # ID cases and rebuild
     print
-    @score_arr[-1] = roll(@score_arr[-1])
+    prompt = TTY::Prompt.new
+    ask = true
+    while ask
+      roll = prompt.ask("BALL #{@ball}:")
+      if roll.to_i == 10 || roll.upcase == "X"
+        if @on_stike == 2
+          @test_arr << "X"
+          return 10
+          # X-/ on_strike = 1; roll = 10
+          # X-- on_strike = 1; roll < 10
+          # 10 + roll2 + roll3; max 20
+        elsif @on_strike == 1 || @on_spare
+          if (@score_arr[-1] + roll.to_i) <= 20
+            return roll.to_i
+          end
+        end
+      end
+      # Alts to player entering 0
+      if roll.upcase == "F" || roll == "-"
+        return 0
+      end
+      if roll == "/" || (roll.to_i + @score_arr[-1] == 10)
+        puts "Nice spare!"
+        @test_arr << "/"
+        return roll.to_i
+      end
+      # Player enters an incorrect value
+      if (roll.to_i > 10)
+        puts "Error. Please re-enter score."
+      else
+        ask = false
+        @test_arr << "-"
+      end
+    end
+
+    return roll.to_i
   end
 
   def score_roll(roll)
@@ -109,20 +149,14 @@ class Game
     return @score_arr
   end
 
-  def on_mark(roll)
+  def on_mark(roll) # FIX
     if @on_strike > 0 || @on_spare
       @score_arr[-2] += roll
     end
 
-    if @on_strike == 2
+    if @on_strike == 2 # Need to fix for 10th; 8th = 40
       @score_arr[-3] += roll
     end
-
-    # if @on_strike == 0 && @score_arr[-1] == 10
-    #   @on_spare = true
-    # else
-    #   @on_spare = false
-    # end
   end
 
   def update_mark(roll) # Need to reset to 0 on spare/open
