@@ -6,19 +6,19 @@ game = Game.new
 10.times do
   game.print
   # FIRST BALL
-  ball = 1
   roll = game.first_roll
   game.score_roll(roll)
-  game.on_mark(roll) # TEST: perform strike/spare math
-  game.update_mark(ball, roll)
-  ball = game.second_ball(roll) # Determines if second ball
+  game.on_mark(roll)
+  game.update_mark(roll)
+  ball = game.second_ball(roll)
   game.print
 
   # SECOND BALL
   if ball == 2
-    roll = game.second_roll # Returns value for 2nd roll
+    roll = game.second_roll
     game.score_roll(roll)
     game.on_mark(roll)
+    game.update_mark(roll)
     game.print
   end
 

@@ -1,10 +1,11 @@
 require "tty-prompt"
 
 class Game
-  attr_accessor :score_arr, :score, :on_strike, :on_spare, :frame, :ball
+  attr_accessor :score_arr, :on_strike, :on_spare, :frame, :ball
 
   def initialize
     @score_arr = []
+    @test_arr = [] # Remove after scorecard build
     @on_strike = 0
     @on_spare = false
     @frame = 1
@@ -15,6 +16,7 @@ class Game
     system "clear"
     puts "SCORE: #{@score_arr.sum}"
     p @score_arr
+    p @test_arr
     puts "BALL: #{@ball}"
     @frame < 11 ? (puts "FRAME #{@frame}") : (puts "GAME OVER")
     puts "STRIKE: #{@on_strike}"
@@ -34,6 +36,7 @@ class Game
       # Alt to player entering 10 for a strike
       if roll.upcase == "X" || roll.to_i == 10
         puts "Nice strike!"
+        @test_arr << "X"
         return 10
       end
       # Player enters an incorrect value
@@ -65,6 +68,7 @@ class Game
       # Acknowledge spare
       if roll == "/" || (roll.to_i + @score_arr[-1] == 10)
         puts "Nice spare!"
+        @test_arr << "/"
         return roll.to_i
       end
       # Player enters an incorrect value
@@ -72,6 +76,7 @@ class Game
         puts "Error. Please re-enter score."
       else
         ask = false
+        @test_arr << "-"
       end
     end
 
@@ -111,15 +116,15 @@ class Game
       @score_arr[-3] += roll
     end
 
-    if @on_strike == 0 && @score_arr[-1] == 10
-      @on_spare = true
-    else
-      @on_spare = false
-    end
+    # if @on_strike == 0 && @score_arr[-1] == 10
+    #   @on_spare = true
+    # else
+    #   @on_spare = false
+    # end
   end
 
-  def update_mark(ball, roll) # Watch out for frame 10
-    if ball == 1
+  def update_mark(roll) # Need to reset to 0 on spare/open
+    if @ball == 1
       if roll == 10 && @on_strike < 2
         @on_strike += 1
       elsif @on_strike > 0 && roll < 10
@@ -127,8 +132,10 @@ class Game
       end
     end
 
-    if ball == 2 && @score_arr[-1] == 10
+    if @ball == 2 && @score_arr[-1] == 10
       @on_spare = true
+    else
+      @on_spare = false
     end
   end
 end
