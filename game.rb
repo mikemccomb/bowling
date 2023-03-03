@@ -89,7 +89,7 @@ class Game
   end
 
   def third_ball
-    if @frame == 10 && (@on_spare || @on_strike)
+    if @frame == 10 && (@on_spare || @on_strike > 0)
       @ball = 3
     else
       @ball = 1

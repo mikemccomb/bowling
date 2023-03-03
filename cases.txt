@@ -1,0 +1,57 @@
+# Strike in 9th
+
+XXX | XX-
+- Ball 1: on_strike = 1 || 2
+- Ball 2: on_strike = 2
+- Ball 3: on_strike = 2
+
+X-/ | X--
+- Ball 1: on_strike = 1 || 2
+- Ball 2: on_strike = 2
+- Ball 3: on_strike = 1
+
+-// | -/-
+- Ball 1: on_strike = 1 || 2
+- Ball 2: on_strike = 1
+- Ball 3: on_spare
+
+* Ball 1: May apply to 8 (on=2); apply to 9; apply to 10
+* Ball 2: Apply to 9; apply to 10
+* Ball 3: Apply to 10; max 30
+
+# Spare in 9th
+
+XXX | XX- | X-/ | X--
+- Ball 1: on_spare
+- Ball 2: on_strike = 1
+- Ball 3: on_strike = 1
+
+-// | -/-
+- Ball 1: on_spare
+- Ball 2: No mark
+- Ball 3: on_spare
+
+* Ball 1: Apply to 9; apply to 10;
+* Ball 2: Apply to 10
+* Ball 3: Apply to 10
+
+# Open 9th
+
+XXX | XX- | X-/ | X--
+- Ball 1: No mark
+- Ball 2: on_strike = 1
+- Ball 3: on_strike = 1
+
+-// | -/-
+- Ball 1: No mark 
+- Ball 2: No mark
+- Ball 3: on_spare
+
+* Ball 1: Apply to 10
+* Ball 2: Apply to 10
+* Ball 3: Apply to 10
+
+-----------------------
+
+Ball 1
+if on_strike = 2
