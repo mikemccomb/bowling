@@ -55,3 +55,35 @@ XXX | XX- | X-/ | X--
 
 Ball 1
 if on_strike = 2
+  apply to F8, F9, F10
+  if < 10; on_strike - 1
+if on_strike = 1
+  apply to F9, F10
+  if < 10; on_strike - 1
+if on_spare
+  apply to F9, F10
+  on_spare false
+else
+  only F10
+
+Ball 2
+if on_strike = 2
+  apply to F9, F10
+  if < 10; on_strike - 1
+if on_strike = 1
+  apply to F10
+  if < 10; on_strike
+if on_spare
+  DNE
+else
+  only F10
+
+Ball 3 (F10 only On_strike > 0 or on_spare)
+if on_strike = 2
+  Max 10
+if on_strike = 1
+  Max 10 - B2
+if on_spare
+  Max 10
+else
+  DNE
