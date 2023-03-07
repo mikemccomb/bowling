@@ -106,7 +106,7 @@ class Game
     while ask
       roll = prompt.ask("BALL #{@ball}:")
       if roll.to_i == 10 || roll.upcase == "X"
-        if @on_stike == 2
+        if @on_strike == 2
           @test_arr << "X"
           return 10
           # X-/ on_strike = 1; roll = 10
