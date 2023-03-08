@@ -151,16 +151,18 @@ class Game
   end
 
   def on_mark(roll) # FIX
-    if @on_strike == 1 || @on_spare
-      @score_arr[-2] += roll
-    end
-
     if @on_strike == 2 # Need to fix for 10th; 8th = 40
       if @frame == 10 && @ball == 2
         @score_arr[-2] += roll
       else
         @score_arr[-2] += roll
         @score_arr[-3] += roll
+      end
+    elsif @on_strike == 1 || @on_spare
+      if @frame == 10 && @ball > 1
+        @score_arr[-1] += roll
+      else
+        @score_arr[-2] += roll
       end
     end
   end
@@ -169,9 +171,11 @@ class Game
     if @ball == 1
       if roll == 10 && @on_strike < 2
         @on_strike += 1
-      elsif @on_strike > 0 && roll < 10
-        @on_strike -= 1
       end
+    end
+
+    if @ball == 2 && @frame < 10
+      @on_strike = 0
     end
 
     if @ball == 2 && @score_arr[-1] == 10

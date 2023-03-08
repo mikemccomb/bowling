@@ -27,6 +27,7 @@ game = Game.new
   if ball == 3
     roll = game.third_roll
     game.score_roll(roll)
+    game.on_mark(roll)
   end
 end
 
