@@ -6,6 +6,7 @@ class Game
   def initialize
     @score_arr = []
     @test_arr = [] # Remove after scorecard build
+    @total_arr = []
     @on_strike = 0
     @on_spare = false
     @frame = 1
@@ -180,42 +181,3 @@ class Game
     end
   end
 end
-
-# # Coding 10 Frame ball logic
-# if frame == 10
-#   if ball == 1
-#     if on_strike == 2
-#       @score_arr[-2] += roll
-#       @score_arr[-1] += roll
-#     elsif on_strike == 1 || on_spare
-#       @score_arr[-1] += roll
-#       @on_spare = false
-#     end
-
-#     if @on_strike > 0 && roll < 10
-#       @on_strike -= 1
-#     end
-#     @score_arr << roll
-#   end
-
-#   if ball == 2
-#     if @on_strike == 2
-#       @score_arr[-2] += roll
-#       @score_arr[-1] += roll
-#       if roll < 10
-#         @on_strike -= 1
-#       end
-#     else
-#       @score_arr[-1] += roll
-#     end
-#   end
-
-#   if @on_strike > 0 || @on_spare || @score_arr[-1] > 9
-#     ball = 3
-#     # Add roll to [-1]
-#     # XX: Max 10
-#     # X-: Max 20-[-1]
-#     # /-: Max 20-[-1]
-#     #-/-: Max 10
-#   end
-# end
