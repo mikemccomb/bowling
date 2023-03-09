@@ -7,8 +7,7 @@ game = Game.new
   game.print
   # FIRST BALL
   roll = game.first_roll
-  game.score_roll(roll)
-  game.on_mark(roll)
+  game.update_score(roll)
   game.update_mark(roll)
   ball = game.second_ball(roll)
   game.print
@@ -16,8 +15,7 @@ game = Game.new
   # SECOND BALL
   if ball == 2
     roll = game.second_roll
-    game.score_roll(roll)
-    game.on_mark(roll)
+    game.update_score(roll)
     game.update_mark(roll)
     game.print
   end
@@ -26,8 +24,7 @@ game = Game.new
   ball = game.third_ball
   if ball == 3
     roll = game.third_roll
-    game.score_roll(roll)
-    game.on_mark(roll)
+    game.update_score(roll)
   end
 end
 
