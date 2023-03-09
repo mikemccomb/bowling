@@ -3,61 +3,110 @@
 #   end
 # end
 
-# def score_roll(roll)
-#   if @ball == 1
-#     @score_arr << roll
-#   else
-#     @score_arr[-1] += roll
-#   end
-
-#   return @score_arr
-# end
-
-# def on_mark(roll) # FIX - 10F B2 and B3 add twice
-#   if @on_strike == 2
-#     if @frame == 10 && @ball == 2
-#       @score_arr[-2] += roll
-#     else
-#       @score_arr[-2] += roll
-#       @score_arr[-3] += roll
-#     end
-#   elsif @on_strike == 1 || @on_spare
-#     if @frame == 10 && @ball > 1
-#       @score_arr[-1] += roll
-#     else
-#       @score_arr[-2] += roll
-#     end
-#   end
-# end
-
-def update_score(roll)
-  # if @ball == 1
-  #   @score_arr << roll
-  # else
-  #   @score_arr[-1] += roll
-  # end
-
-  (@ball == 1) ? (@score_arr << roll) : (@score_arr[-1] += roll)
-
+def update_mark(roll) # Need to reset to 0 on spare/open
+  # 10 down on ball 1 = X
+  # 10 down by ball 2 = /
+  # If X; on_strike = 1, roll applies to previous frame (1-9)
+  # If XX; on_strike = 2, roll applies to previous 2 frames (1-9)
+  # on_strike > 0 && on_spare = true DNE
+  # If /; on_spare = true, score applies to previous frame
   if @frame == 10
-    if @on_strike == 2
-      if @ball == 1
-        @score_arr[-2] += roll # Add to 9f
-        @score_arr[-3] += roll # Add to 8f
-      elsif @ball == 2
-        @score_arr[-2] += roll # Add to 9f
+    if @ball == 1
+      if roll == 10
+        if @on_strike == 2
+          # Nothing changes
+        elsif @on_strike == 1
+          # Nothing changes; ball 2 applies to 9th
+        elsif @on_spare
+          @on_strike = 1 # Needed to trigger ball 3
+          @on_spare = false
+        end
+      else # roll < 10
+        if @on_strike == 2
+          @on_strike -= 1
+        elsif @on_strike == 1
+          # Nothing changes; ball 2 still applies to 9th
+        elsif @on_spare
+          @on_spare = false
+        end
       end
-    elsif (@on_strike == 1 || @on_spare) && @ball == 1
-      @score_arr[-2] += roll # Add to 9f
-      @on_spare = false
+    elsif @ball == 2
+      if @on_strike == 2
+      elsif @on_strike == 1
+      elsif @on_spare
+      end
+    elsif @ball == 3
+      if @on_strike == 2
+      elsif @on_strike == 1
+      elsif @on_spare
+      end
+    else
+      if @ball == 1
+        if @on_strike == 2
+        elsif @on_strike == 1
+        elsif @on_spare
+        end
+      elsif @ball == 2
+        if @on_strike == 2
+        elsif @on_strike == 1
+        elsif @on_spare
+        end
+      elsif @ball == 3
+        if @on_strike == 2
+        elsif @on_strike == 1
+        elsif @on_spare
+        end
+      end
     end
+
+    # if @ball == 1
+    #   if roll == 10 && @on_strike < 2
+    #     @on_strike += 1
+    #   end
+    # end
+
+    # if @ball == 2 && @frame < 10
+    #   @on_strike = 0
+    # end
+
+    # if @ball == 2 && @score_arr[-1] == 10
+    #   @on_spare = true
+    # else
+    #   @on_spare = false
+    # end
   else
-    if @on_strike == 2
-      @score_arr[-2] += roll
-      @score_arr[-3] += roll
-    elsif @on_strike == 1 || @on_spare
-      @score_arr[-2] += roll
-      @on_spare = false
+    if @ball == 1
+      if @strike == 2
+      elsif @strike == 1
+      elsif @on_spare
+      end
+    elsif @ball == 2
+      if @strike == 2
+      elsif @strike == 1
+      elsif @on_spare
+      end
+    elsif @ball == 3
+      if @strike == 2
+      elsif @strike == 1
+      elsif @on_spare
+      end
+    else
+      if @ball == 1
+        if @strike == 2
+        elsif @strike == 1
+        elsif @on_spare
+        end
+      elsif @ball == 2
+        if @strike == 2
+        elsif @strike == 1
+        elsif @on_spare
+        end
+      elsif @ball == 3
+        if @strike == 2
+        elsif @strike == 1
+        elsif @on_spare
+        end
+      end
     end
   end
 end

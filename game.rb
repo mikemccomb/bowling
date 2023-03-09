@@ -6,7 +6,7 @@ class Game
   def initialize
     @score_arr = []
     @test_arr = [] # Remove after scorecard build
-    @total_arr = []
+    # @total_arr = []
     @on_strike = 0
     @on_spare = false
     @frame = 1
@@ -19,7 +19,8 @@ class Game
     p @score_arr
     p @test_arr
     puts "BALL: #{@ball}"
-    @frame < 11 ? (puts "FRAME #{@frame}") : (puts "GAME OVER")
+    puts "FRAME #{@frame}"
+    #(@frame == 11) ? (puts "GAME OVER") : (puts "FRAME #{@frame}")
     puts "STRIKE: #{@on_strike}"
     puts "SPARE: #{@on_spare}"
   end
@@ -201,7 +202,7 @@ class Game
     end
   end
 
-  def update_mark(roll) # Need to reset to 0 on spare/open
+  def update_mark(roll) # FIX
     if @ball == 1
       if roll == 10 && @on_strike < 2
         @on_strike += 1
