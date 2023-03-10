@@ -14,7 +14,8 @@ def update_mark(roll) # Need to reset to 0 on spare/open
     if @ball == 1
       if roll == 10
         if @on_strike == 2
-          # Nothing changes
+          @on_strike = 1
+          # 8F math done; 10F2B still applies to 9th
         elsif @on_strike == 1
           # Nothing changes; ball 2 applies to 9th
         elsif @on_spare
@@ -32,6 +33,30 @@ def update_mark(roll) # Need to reset to 0 on spare/open
       end
     elsif @ball == 2
       if @on_strike == 2
+        # DNE; B1 reduces to S1
+      elsif @on_strike == 1
+        @on_strike -= 1
+        # Reduce to 0 so ball three does not count toward 9th
+      elsif @on_spare
+        # DNE
+      end
+    elsif @ball == 3
+      if @on_strike == 2
+        # DNE
+      elsif @on_strike == 1
+        # DNE
+      elsif @on_spare
+        # DNE
+      end
+    end
+  else
+    if @ball == 1
+      if @on_strike == 2
+      elsif @on_strike == 1
+      elsif @on_spare
+      end
+    elsif @ball == 2
+      if @on_strike == 2
       elsif @on_strike == 1
       elsif @on_spare
       end
@@ -40,40 +65,23 @@ def update_mark(roll) # Need to reset to 0 on spare/open
       elsif @on_strike == 1
       elsif @on_spare
       end
-    else
-      if @ball == 1
-        if @on_strike == 2
-        elsif @on_strike == 1
-        elsif @on_spare
-        end
-      elsif @ball == 2
-        if @on_strike == 2
-        elsif @on_strike == 1
-        elsif @on_spare
-        end
-      elsif @ball == 3
-        if @on_strike == 2
-        elsif @on_strike == 1
-        elsif @on_spare
-        end
-      end
     end
-
-    # if @ball == 1
-    #   if roll == 10 && @on_strike < 2
-    #     @on_strike += 1
-    #   end
-    # end
-
-    # if @ball == 2 && @frame < 10
-    #   @on_strike = 0
-    # end
-
-    # if @ball == 2 && @score_arr[-1] == 10
-    #   @on_spare = true
-    # else
-    #   @on_spare = false
-    # end
+  else
+  if @ball == 1
+    if @strike == 2
+    elsif @strike == 1
+    elsif @on_spare
+    end
+  elsif @ball == 2
+    if @strike == 2
+    elsif @strike == 1
+    elsif @on_spare
+    end
+  elsif @ball == 3
+    if @strike == 2
+    elsif @strike == 1
+    elsif @on_spare
+    end
   else
     if @ball == 1
       if @strike == 2
@@ -89,23 +97,6 @@ def update_mark(roll) # Need to reset to 0 on spare/open
       if @strike == 2
       elsif @strike == 1
       elsif @on_spare
-      end
-    else
-      if @ball == 1
-        if @strike == 2
-        elsif @strike == 1
-        elsif @on_spare
-        end
-      elsif @ball == 2
-        if @strike == 2
-        elsif @strike == 1
-        elsif @on_spare
-        end
-      elsif @ball == 3
-        if @strike == 2
-        elsif @strike == 1
-        elsif @on_spare
-        end
       end
     end
   end

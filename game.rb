@@ -90,7 +90,7 @@ class Game
     return roll.to_i
   end
 
-  def third_ball
+  def third_ball # Use mark_update to handle this?
     if @frame == 10 && (@on_spare || @on_strike > 0)
       @ball = 3
     else
