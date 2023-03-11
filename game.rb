@@ -27,7 +27,6 @@ class Game
   def first_roll
     prompt = TTY::Prompt.new
     ask = true
-    @ball = 1
     while ask
       roll = prompt.ask("BALL #{@ball}:")
       # Alts to player entering 0
