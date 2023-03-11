@@ -51,8 +51,18 @@ class Game
     return roll.to_i
   end
 
-  def second_ball(roll) # Consolidate with third_ball
-    (@ball = 2) if ((roll < 10) || @frame == 10)
+  def update_ball(roll) # Consolidate with third_ball
+    if @ball == 1 && ((roll < 10) || @frame == 10)
+      @ball = 2
+    else
+      unless @frame == 10 && @score_arr[-1] >= 10
+        @frame += 1
+        @ball = 1
+      else
+        @ball = 3
+      end
+      return @ball
+    end
   end
 
   def second_roll # Wonky
@@ -85,16 +95,6 @@ class Game
     end
 
     return roll.to_i
-  end
-
-  def third_ball
-    unless @frame == 10 && @score_arr[-1] >= 10
-      @frame += 1
-      @ball = 1
-    else
-      @ball = 3
-    end
-    return @ball
   end
 
   def third_roll # Simplify; roll only adds to 10F

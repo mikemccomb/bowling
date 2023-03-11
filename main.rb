@@ -9,7 +9,7 @@ game = Game.new
   roll = game.first_roll
   game.update_score(roll)
   game.update_mark(roll)
-  ball = game.second_ball(roll)
+  ball = game.update_ball(roll)
   game.print
 
   # SECOND BALL
@@ -17,11 +17,11 @@ game = Game.new
     roll = game.second_roll
     game.update_score(roll)
     game.update_mark(roll)
+    ball = game.update_ball(roll)
     game.print
   end
 
   # THIRD BALL (TENTH FRAME)
-  ball = game.third_ball
   if ball == 3
     roll = game.third_roll
     game.update_score(roll)
