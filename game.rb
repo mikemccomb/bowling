@@ -6,7 +6,6 @@ class Game
   def initialize
     @score_arr = []
     @test_arr = [] # Remove after scorecard build
-    # @total_arr = []
     @on_strike = 0
     @on_spare = false
     @frame = 1
@@ -20,7 +19,7 @@ class Game
     p @test_arr
     puts "BALL: #{@ball}"
     puts "FRAME #{@frame}"
-    #(@frame == 11) ? (puts "GAME OVER") : (puts "FRAME #{@frame}")
+    # (@frame == 11) ? (puts "GAME OVER") : (puts "FRAME #{@frame}")
     puts "STRIKE: #{@on_strike}"
     puts "SPARE: #{@on_spare}"
   end
@@ -53,12 +52,10 @@ class Game
   end
 
   def second_ball(roll) # Consolidate with third_ball
-    if (roll < 10) || @frame == 10
-      @ball = 2
-    end
+    (@ball = 2) if ((roll < 10) || @frame == 10)
   end
 
-  def second_roll
+  def second_roll # Wonky
     prompt = TTY::Prompt.new
     ask = true
     while ask
@@ -67,7 +64,7 @@ class Game
       if roll.upcase == "F" || roll == "-"
         return 0
       end
-      # Tenth frame 2nd strike
+      # Tenth frame 2nd strike - SIMPLIFY
       if @frame == 10 && @on_strike > 0 && (roll.upcase == "X" || roll.to_i == 10)
         @test_arr << "X"
         return 10
@@ -90,7 +87,7 @@ class Game
     return roll.to_i
   end
 
-  def third_ball # Use mark_update to handle this?
+  def third_ball
     unless @frame == 10 && @score_arr[-1] >= 10
       @frame += 1
       @ball = 1
@@ -100,14 +97,14 @@ class Game
     return @ball
   end
 
-  def third_roll # ID cases and rebuild
+  def third_roll # Simplify; roll only adds to 10F
     print
     prompt = TTY::Prompt.new
     ask = true
     while ask
       roll = prompt.ask("BALL #{@ball}:")
       if roll.to_i == 10 || roll.upcase == "X"
-        if @on_strike == 2
+        if @on_strike == 2 # DNE; on_strike = 0
           @test_arr << "X"
           return 10
           # X-/ on_strike = 1; roll = 10
@@ -140,158 +137,28 @@ class Game
     return roll.to_i
   end
 
-  #   if @ball == 1
-  #     @score_arr << roll
-  #   else
-  #     @score_arr[-1] += roll
-  #   end
-
-  #   if @frame == 10
-  #     if @on_strike == 2
-  #       if @ball == 1
-  #         @score_arr[-2] += roll # Add to 9f
-  #         @score_arr[-3] += roll # Add to 8f
-  #       elsif @ball == 2
-  #         @score_arr[-2] += roll # Add to 9f
-  #       end
-  #     elsif @on_strike == 1
-  #       if @ball == 1
-  #         @score_arr[-2] += roll # Add to 9f
-  #       end
-  #     elsif @on_spare
-  #       if @ball == 1
-  #         @score_arr[-2] += roll # Add to 9f
-  #         @on_spare = false
-  #       end
-  #     end
-  #   else
-  #     if @on_strike == 2
-  #       @score_arr[-2] += roll
-  #       @score_arr[-3] += roll
-  #     elsif @on_strike == 1 || @on_spare
-  #       @score_arr[-2] += roll
-  #       @on_spare = false
-  #     end
-  #   end
-  # end
-
   def update_score(roll)
     (@ball == 1) ? (@score_arr << roll) : (@score_arr[-1] += roll)
-
-    if @frame == 10
-      if @on_strike == 2
-        if @ball == 1
-          @score_arr[-2] += roll # Add to 9f
-          @score_arr[-3] += roll # Add to 8f
-        elsif @ball == 2
-          @score_arr[-2] += roll # Add to 9f
-        end
-      elsif (@on_strike == 1 || @on_spare) && @ball == 1
-        @score_arr[-2] += roll # Add to 9f
-        @on_spare = false
-      end
-    else
-      if @on_strike == 2
-        @score_arr[-2] += roll
-        @score_arr[-3] += roll
-      elsif @on_strike == 1 || @on_spare
-        @score_arr[-2] += roll
-        @on_spare = false
-      end
-    end
+    (@score_arr[-2] += roll) if (@on_strike > 0 || @on_spare)
+    (@score_arr[-3] += roll) if (@on_strike == 2)
   end
 
-  def update_mark(roll) # Need to reset to 0 on spare/open
+  def update_mark(roll)
     if @frame == 10
       if @ball == 1
-        if roll == 10
-          if @on_strike == 2
-            @on_strike = 1
-            # 8F math done; 10F2B still applies to 9th
-          elsif @on_strike == 1
-            # Nothing changes; ball 2 applies to 9th
-          elsif @on_spare
-            @on_spare = false
-          end #No new mark needed for 10th; array value used to determine B3
-        else # roll < 10
-          if @on_strike == 2
-            @on_strike = 1
-          elsif @on_strike == 1
-            # Nothing changes; ball 2 still applies to 9th
-          elsif @on_spare
-            @on_spare = false
-          end
-        end
-      elsif @ball == 2
-        if @on_strike == 2
-          # DNE; B1 reduced to S1
-        elsif @on_strike == 1
-          @on_strike -= 1
-          # Reduce to 0 so ball three does not count toward 9th
-        elsif @on_spare
-          # DNE
-        end
-      elsif @ball == 3 # Mark not needed; roll applies to 10F only
-        if @on_strike == 2
-          # DNE
-        elsif @on_strike == 1
-          # DNE
-        elsif @on_spare
-          # DNE
-        end
+        @on_strike = 1 if (@on_strike > 0)
+        @on_spare = false
+      else
+        @on_strike = 0
       end
     else # Frames 1-9
       if @ball == 1
-        if @on_strike == 2 && (roll < 10)
-          @on_strike = 1
-        elsif @on_strike == 1
-          # If strike, now XX; else B2 would still apply to prev F
-          (roll == 10) ? (@on_strike = 2) : (@on_strike = 1)
-        elsif @on_spare
-          @on_spare = false
-          if roll == 10
-            @on_strike = 1
-          end
-        elsif roll == 10
-          @on_strike = 1
-        end
-      elsif @ball == 2
-        if @on_strike == 2
-          # DNE; if B1 < 10; S = 1
-        elsif @on_strike == 1
-          # Next frame would be S0
-          @on_strike = 0
-          # if frame closed, make on_spare true
-          if @score_arr[-1] == 10
-            @on_spare = true
-          end
-        elsif @on_spare
-          # DNE; on_spare made false in B1
-        end
-      elsif @ball == 3 # Not needed; B3 only in 10th
-        if @on_strike == 2
-        elsif @on_strike == 1
-        elsif @on_spare
-        end
+        @on_strike += 1 if (roll == 10 && @on_strike < 2)
+        @on_spare = false
+      else
+        @on_strike = 0
+        @on_spare = true if (@score_arr[-1] == 10)
       end
     end
   end
-
-  # def update_mark(roll) # FIX
-  #   if @ball == 1
-  #     if roll == 10 && @on_strike < 2
-  #       @on_strike += 1
-  #     end
-  #   end
-
-  #   if @ball == 2 && @frame < 10
-  #     @on_strike = 0
-  #   end
-
-  #   if @ball == 2 && @score_arr[-1] == 10
-  #     @on_spare = true
-  #   else
-  #     @on_spare = false
-  #   end
-  # end
 end
