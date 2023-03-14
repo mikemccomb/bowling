@@ -40,7 +40,7 @@ class Game
         return 10
       end
       # Player enters an incorrect value
-      if roll.to_i > 10 || roll == "/"
+      if roll.to_i > 10 || roll == "/" || roll == ""
         puts "Error. Please re-enter score."
       else
         ask = false
