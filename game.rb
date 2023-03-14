@@ -28,7 +28,7 @@ class Game
     prompt = TTY::Prompt.new
     ask = true
     while ask
-      roll = prompt.ask("BALL #{@ball}:")
+      roll = prompt.ask("BALL #{@ball}:", required: true)
       # Alts to player entering 0
       if roll.upcase == "F" || roll == "-"
         return 0
@@ -68,7 +68,7 @@ class Game
     prompt = TTY::Prompt.new
     ask = true
     while ask
-      roll = prompt.ask("BALL #{@ball}:")
+      roll = prompt.ask("BALL #{@ball}:", required: true)
       # Alts to player entering 0
       if roll.upcase == "F" || roll == "-"
         return 0
@@ -101,7 +101,7 @@ class Game
     prompt = TTY::Prompt.new
     ask = true
     while ask
-      roll = prompt.ask("BALL #{@ball}:")
+      roll = prompt.ask("BALL #{@ball}:", required: true)
       if roll.to_i == 10 || roll.upcase == "X"
         if @on_strike == 2 # DNE; on_strike = 0
           @test_arr << "X"

@@ -22,40 +22,27 @@ end
 
 def roll
   # Establish max
+  max = 10
+
   if @ball == 2 && (@score_arr[-1] < 10)
     max = (10 - @score_arr[-1])
   elsif @ball == 3 && (@score_arr[-1] < 20)
     max = (20 - @score_arr[-1])
-  else
-    max = 10
   end
 
   prompt = TTY::Prompt.new
-  roll = prompt.ask("BALL #{@ball}:")
+  roll = prompt.ask("BALL #{@ball}:", required: true)
+  # Convert to integer, F, -, X, /
+  roll = 0 if (roll.upcase == "F" || roll == "-")
+  roll = 10 if roll.upcase == "X"
   # Check roll validation
-  if roll > max || roll == ""
-    #
-    puts "Error. Please re-enter score."
-    # Validation: https://github.com/piotrmurach/tty-prompt#215-error-messages
-  end
+  (puts "Error. Please re-enter score.") if roll > max
 
   # If roll valid:
-  # Convert to integer, F, -, X, /
-  if roll.upcase == "F" || roll == "-"
-    roll = 0
-  end
-  # Else
-  if @ball == 1
-    max = 10
-    # Player enters an incorrect value; see validation
-    # if roll.to_i > max || roll == "/" || roll == ""
-    #   puts "Error. Please re-enter score."
-    # else
-    #   ask = false
-    # end
 
+  if @ball == 1
     # Alt to player entering 10 for a strike
-    if roll == "X" || roll == 10
+    if roll == 10
       puts "Nice strike!"
       @test_arr << "X"
       roll = 10
@@ -65,8 +52,6 @@ def roll
   end
 
   if @ball == 2
-    max = (10 - @score_arr[-1])
-
     # Acknowledge spare
     if roll == "/" || roll == max
       puts "Nice spare!"
@@ -76,16 +61,28 @@ def roll
       roll = roll.to_i
       @test_arr << "-"
     end
-
-    # Player enters an incorrect value; see validation
-    if roll.to_i > max || roll.upcase == "X" || roll == ""
-      puts "Error. Please re-enter score."
-    else
-      ask = false
-    end
   end
 
   if @ball == 3
+    if max == 10 # B3 Strike attempt
+      if roll == "X" || roll == 10
+        puts "Nice strike!"
+        @test_arr << "X"
+        roll = 10
+      else
+        roll = roll.to_i
+        @test_arr << "-"
+      end
+    else # B3 spare attempt
+      if roll == "/" || roll == max
+        puts "Nice spare!"
+        @test_arr << "/"
+        roll = max
+      else
+        roll = roll.to_i
+        @test_arr << "-"
+      end
+    end
   end
 
   return roll
