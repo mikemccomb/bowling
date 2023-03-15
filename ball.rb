@@ -1,26 +1,4 @@
-# class Ball
-#   def initialize
-#   end
-# end
-
-if @ball == 1
-  # 0: F, -, blank
-  # 10: X
-  # NE: /, > 10
-  # roll
-elsif @ball == 2
-  # 0: F, -, blank
-  # Spare: / (10 - arr[-1]); (roll + arr[-1] == 10)
-  # NE: spare math 0 < or > 10 (1F-9F) or > 20 (10F)
-  # roll
-else # ball == 3
-  # 0: F, -, blank
-  # If [-1] == 10, mark / (max 20)
-  # If [-1] == 20, mark X (max 30)
-  # If 10 < [-1] < 20, mark / (max 20)
-end
-
-def roll
+def roll_value
   # Establish max
   max = 10
 
@@ -41,6 +19,7 @@ def roll
   # If roll valid:
 
   if @ball == 1
+    max = 10
     # Alt to player entering 10 for a strike
     if roll == 10
       puts "Nice strike!"
@@ -86,4 +65,71 @@ def roll
   end
 
   return roll
+end
+
+def third_roll # Simplify; roll only adds to 10F
+  print
+  prompt = TTY::Prompt.new
+  ask = true
+  while ask
+    roll = prompt.ask("BALL #{@ball}:", required: true)
+    if roll.to_i == 10 || roll.upcase == "X"
+      if @on_strike == 2 # DNE; on_strike = 0
+        @test_arr << "X"
+        return 10
+        # X-/ on_strike = 1; roll = 10
+        # X-- on_strike = 1; roll < 10
+        # 10 + roll2 + roll3; max 20
+      elsif @on_strike == 1 || @on_spare
+        if (@score_arr[-1] + roll.to_i) <= 20
+          return roll.to_i
+        end
+      end
+    end
+    # Alts to player entering 0
+    if roll.upcase == "F" || roll == "-"
+      return 0
+    end
+    if roll == "/" || (roll.to_i + @score_arr[-1] == 10)
+      puts "Nice spare!"
+      @test_arr << "/"
+      return roll.to_i
+    end
+    # Player enters an incorrect value
+    if (roll.to_i > 10)
+      puts "Error. Please re-enter score."
+    else
+      ask = false
+      @test_arr << "-"
+    end
+  end
+
+  return roll.to_i
+end
+
+def third_roll
+  print
+  prompt = TTY::Prompt.new
+  ask = true
+  (@score_arr[-1] == 20) ? (max = 10) : (max = 20 - @score_arr[-1])
+
+  while ask
+    roll = prompt.ask("BALL #{@ball}:", required: true)
+
+    if roll.upcase == "F" || roll == "-"
+      return 0
+    end
+
+    if roll.upcase == "X" || roll == "/"
+      @test_arr << roll
+      return max
+    end
+
+    if (roll.to_i > max)
+      puts "Error. Please re-enter score."
+    else
+      @test_arr << "-"
+      return roll.to_i
+    end
+  end
 end
