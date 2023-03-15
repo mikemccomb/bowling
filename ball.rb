@@ -36,7 +36,7 @@ def roll
   roll = 0 if (roll.upcase == "F" || roll == "-")
   roll = 10 if roll.upcase == "X"
   # Check roll validation
-  (puts "Error. Please re-enter score.") if roll > max
+  (puts "Error. Please re-enter score.") if roll.to_i > max
 
   # If roll valid:
 
