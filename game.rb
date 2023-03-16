@@ -22,8 +22,7 @@ class Game
     # p @test_arr
     puts "BALL: #{@ball}"
     (@frame == 11) ? (puts "GAME OVER") : (puts "FRAME #{@frame}")
-    puts "STRIKE: #{@on_strike}"
-    puts "SPARE: #{@on_spare}"
+    puts "STRIKE: #{@on_strike} | SPARE: #{@on_spare}"
   end
 
   def roll_value
@@ -179,7 +178,7 @@ class Game
   #   end
   # end
 
-  def update_ball(roll)
+  def update_ball(roll) # Tidy up?
     if @ball == 1 && ((roll < 10) || @frame == 10)
       @ball = 2
     else
@@ -199,7 +198,7 @@ class Game
     (@score_arr[-3] += roll) if (@on_strike == 2)
   end
 
-  def update_mark(roll)
+  def update_mark(roll) # Pivot on ball rather than frame?
     if @frame == 10
       if @ball == 1
         @on_strike = 1 if (@on_strike > 0)
