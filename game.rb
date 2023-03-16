@@ -5,7 +5,9 @@ class Game
 
   def initialize
     @score_arr = []
-    @test_arr = [] # Remove after scorecard build
+    @test_arr = []
+    @scorecard = [[], [], [], [], [], [], [], [], [], []]
+    # @running_total = [[], [], [], [], [], [], [], [], [], []]
     @on_strike = 0
     @on_spare = false
     @frame = 1
@@ -15,8 +17,9 @@ class Game
   def print
     system "clear"
     puts "SCORE: #{@score_arr.sum}"
+    p @scorecard
     p @score_arr
-    p @test_arr
+    # p @test_arr
     puts "BALL: #{@ball}"
     (@frame == 11) ? (puts "GAME OVER") : (puts "FRAME #{@frame}")
     puts "STRIKE: #{@on_strike}"
@@ -38,11 +41,14 @@ class Game
       roll = prompt.ask("BALL #{@ball}:", required: true)
 
       if roll.upcase == "F" || roll == "-"
+        @scorecard[@frame - 1] << roll
+        @test_arr << "-" if @ball > 1
         return 0
       end
 
       if @ball == 1 && (roll.upcase == "X" || roll.to_i == 10)
         @test_arr << "X"
+        @scorecard[@frame - 1] << "X"
         return 10
       end
 
@@ -50,15 +56,18 @@ class Game
         if roll.upcase == "X"
           if frame == 10 && @on_strike > 0
             @test_arr << "X"
+            @scorecard[@frame - 1] << "X"
             return 10
           else
             @test_arr << "/"
+            @scorecard[@frame - 1] << "/"
             return max
           end
         end
 
         if roll == "/" || (roll.to_i == max)
           @test_arr << "/"
+          @scorecard[@frame - 1] << "/"
           return max
         end
       end
@@ -67,9 +76,11 @@ class Game
         # Finesse for all cases
         if roll.upcase == "X"
           @test_arr << "X"
+          @scorecard[@frame - 1] << "X"
           return max
         elsif roll == "/"
           @test_arr << roll
+          @scorecard[@frame - 1] << "/"
           return max
         end
       end
@@ -78,6 +89,7 @@ class Game
         puts "Error. Please re-enter score."
       else
         @test_arr << "-" if @ball > 1
+        @scorecard[@frame - 1] << roll.to_i
         return roll.to_i
       end
     end
