@@ -18,7 +18,6 @@ class Game
     p @score_arr
     p @test_arr
     puts "BALL: #{@ball}"
-    # puts "FRAME #{@frame}"
     (@frame == 11) ? (puts "GAME OVER") : (puts "FRAME #{@frame}")
     puts "STRIKE: #{@on_strike}"
     puts "SPARE: #{@on_spare}"
@@ -29,38 +28,21 @@ class Game
     ask = true
     while ask
       roll = prompt.ask("BALL #{@ball}:", required: true)
-      # Alts to player entering 0
+
       if roll.upcase == "F" || roll == "-"
         return 0
       end
-      # Alt to player entering 10 for a strike
+
       if roll.upcase == "X" || roll.to_i == 10
-        puts "Nice strike!"
         @test_arr << "X"
         return 10
       end
-      # Player enters an incorrect value
-      if roll.to_i > 10 || roll == "/" || roll == ""
+
+      if roll.to_i > 10 || roll == "/"
         puts "Error. Please re-enter score."
       else
-        ask = false
+        return roll.to_i
       end
-    end
-
-    return roll.to_i
-  end
-
-  def update_ball(roll) # Consolidate with third_ball
-    if @ball == 1 && ((roll < 10) || @frame == 10)
-      @ball = 2
-    else
-      unless @frame == 10 && @score_arr[-1] >= 10 && @ball < 3
-        @frame += 1
-        @ball = 1
-      else
-        @ball = 3
-      end
-      return @ball
     end
   end
 
@@ -126,6 +108,20 @@ class Game
         @test_arr << "-"
         return roll.to_i
       end
+    end
+  end
+
+  def update_ball(roll)
+    if @ball == 1 && ((roll < 10) || @frame == 10)
+      @ball = 2
+    else
+      unless @frame == 10 && @score_arr[-1] >= 10 && @ball < 3
+        @frame += 1
+        @ball = 1
+      else
+        @ball = 3
+      end
+      return @ball
     end
   end
 

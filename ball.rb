@@ -170,3 +170,26 @@ def second_roll # Wonky
     end
   end
 end
+
+def first_roll
+  prompt = TTY::Prompt.new
+  ask = true
+  while ask
+    roll = prompt.ask("BALL #{@ball}:", required: true)
+
+    if roll.upcase == "F" || roll == "-"
+      return 0
+    end
+
+    if roll.upcase == "X" || roll.to_i == 10
+      @test_arr << "X"
+      return 10
+    end
+
+    if roll.to_i > 10 || roll == "/"
+      puts "Error. Please re-enter score."
+    else
+      return roll.to_i
+    end
+  end
+end
