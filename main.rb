@@ -5,11 +5,11 @@ game = Game.new
 
 while game.frame < 11
   game.print
-  roll = game.first_roll if game.ball == 1
-  roll = game.second_roll if game.ball == 2
-  roll = game.third_roll if game.ball == 3
+  # roll = game.first_roll if game.ball == 1
+  # roll = game.second_roll if game.ball == 2
+  # roll = game.third_roll if game.ball == 3
   # roll = game.first_roll
-  # roll = game.roll_value
+  roll = game.roll_value
   game.update_score(roll)
   game.update_mark(roll)
   ball = game.update_ball(roll)
