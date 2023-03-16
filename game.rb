@@ -27,14 +27,11 @@ class Game
   end
 
   def roll_value
-    # BALL 1
     prompt = TTY::Prompt.new
     ask = true
     # Calculate max value of roll
     max = 10
-    # @score_arr[-1] == 10 ? (max = 10) : (max = 10 - @score_arr[-1]) if @ball == 2
     max = (10 - @score_arr[-1]) if (@ball == 2 && (@score_arr[-1] < 10))
-    # (@score_arr[-1] == 20) ? (max = 10) : (max = 20 - @score_arr[-1]) if @ball == 3
     max = (20 - @score_arr[-1]) if (@ball == 3 && (@score_arr[-1] < 20))
 
     while ask
@@ -95,7 +92,6 @@ class Game
     end
   end
 
-  # def first_roll
   #   prompt = TTY::Prompt.new
   #   ask = true
   #   while ask
