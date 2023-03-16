@@ -64,36 +64,42 @@ class Game
     end
   end
 
-  def second_roll # Wonky
+  def second_roll
     prompt = TTY::Prompt.new
     ask = true
+
+    @score_arr[-1] == 10 ? (max = 10) : (max = 10 - @score_arr[-1])
+
     while ask
       roll = prompt.ask("BALL #{@ball}:", required: true)
-      # Alts to player entering 0
+
       if roll.upcase == "F" || roll == "-"
+        @test_arr << "-"
         return 0
       end
-      # Tenth frame 2nd strike - SIMPLIFY
-      if @frame == 10 && @on_strike > 0 && (roll.upcase == "X" || roll.to_i == 10)
-        @test_arr << "X"
-        return 10
+
+      if roll.upcase == "X" || roll == "/"
+        if frame == 10 && @score_arr[-1] == 10
+          @test_arr << "X"
+          return 10
+        else
+          @test_arr << "/"
+          return max
+        end
       end
-      # Acknowledge spare
-      if roll == "/" || (roll.to_i + @score_arr[-1] == 10)
-        puts "Nice spare!"
+
+      if roll.to_i == max
         @test_arr << "/"
-        return roll.to_i
+        return max
       end
-      # Player enters an incorrect value
-      if ((roll.to_i + @score_arr[-1]) > 10) || roll == "X"
+
+      if (roll.to_i > max)
         puts "Error. Please re-enter score."
       else
-        ask = false
         @test_arr << "-"
+        return roll.to_i
       end
     end
-
-    return roll.to_i
   end
 
   def third_roll

@@ -133,3 +133,40 @@ def third_roll
     end
   end
 end
+
+def second_roll # Wonky
+  prompt = TTY::Prompt.new
+  ask = true
+
+  @score_arr[-1] == 10 ? (max = 10) : (max = 10 - @score_arr[-1])
+
+  while ask
+    roll = prompt.ask("BALL #{@ball}:", required: true)
+
+    if roll.upcase == "F" || roll == "-"
+      return 0
+    end
+
+    if roll.upcase == "X"
+      if frame == 10 && @on_strike > 0
+        @test_arr << "X"
+        return 10
+      else
+        @test_arr << "/"
+        return max
+      end
+    end
+
+    if roll == "/" || (roll.to_i == max)
+      @test_arr << "/"
+      return max
+    end
+
+    if (roll.to_i > max)
+      puts "Error. Please re-enter score."
+    else
+      @test_arr << "-"
+      return roll.to_i
+    end
+  end
+end
