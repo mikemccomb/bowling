@@ -1,7 +1,8 @@
 require "tty-prompt"
+require "./display.rb"
 
 class Game
-  attr_accessor :score_arr, :on_strike, :on_spare, :frame, :ball
+  attr_accessor :score_arr, :on_strike, :on_spare, :frame, :ball, :player_name
 
   def initialize
     @score_arr = []

@@ -1,20 +1,17 @@
 require "./game.rb"
+require "tty-table"
+require "tty-prompt"
 
 class Display < Game
-  attr_accessor :score_arr, :on_strike, :on_spare, :frame, :ball
+  attr_accessor :player_name
 
   def initialize
     super
+    @player_name = ""
   end
 
-  def print
-    system "clear"
-    puts "SCORE: #{@score_arr.sum}"
-    p @scorecard
-    p @score_arr
-    # p @test_arr
-    puts "BALL: #{@ball}"
-    (@frame == 11) ? (puts "GAME OVER") : (puts "FRAME #{@frame}")
-    puts "STRIKE: #{@on_strike} | SPARE: #{@on_spare}"
+  def player
+    prompt = TTY::Prompt.new
+    @player_name = prompt.ask("Player 1 Name:", required: true)
   end
 end
