@@ -1,7 +1,8 @@
 require "tty-prompt"
-require "./game.rb"
+require "./display.rb"
 
 game = Game.new
+display = Display.new
 
 while game.frame < 11
   game.print

@@ -8,6 +8,8 @@ Play again?
 
 Save player data
 
+New class: display; separate from game elements
+
 Display as a score card:
 NAME |[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][][]|
 SCORE| ## | ## | ## | ## | ## | ## | ## | ## | ## | ###  |

@@ -34,7 +34,7 @@ class Game
     max = (20 - @score_arr[-1]) if (@ball == 3 && (@score_arr[-1] < 20))
 
     while ask
-      roll = prompt.ask("BALL #{@ball}:", required: true)
+      roll = prompt.ask("ROLL #{@ball}:", required: true)
 
       if roll.upcase == "F" || roll == "-"
         @scorecard[@frame - 1] << roll
@@ -49,7 +49,7 @@ class Game
       end
 
       if @ball == 2
-        if roll.upcase == "X"
+        if roll.upcase == "X" # solve for X | 9/
           if frame == 10 && @on_strike > 0
             @test_arr << "X"
             @scorecard[@frame - 1] << "X"
@@ -91,93 +91,6 @@ class Game
     end
   end
 
-  #   prompt = TTY::Prompt.new
-  #   ask = true
-  #   while ask
-  #     roll = prompt.ask("BALL #{@ball}:", required: true)
-
-  #     if roll.upcase == "F" || roll == "-"
-  #       return 0
-  #     end
-
-  #     if roll.upcase == "X" || roll.to_i == 10
-  #       @test_arr << "X"
-  #       return 10
-  #     end
-
-  #     if roll.to_i > 10 || roll == "/"
-  #       puts "Error. Please re-enter score."
-  #     else
-  #       return roll.to_i
-  #     end
-  #   end
-  # end
-
-  # def second_roll
-  #   prompt = TTY::Prompt.new
-  #   ask = true
-
-  #   @score_arr[-1] == 10 ? (max = 10) : (max = 10 - @score_arr[-1])
-
-  #   while ask
-  #     roll = prompt.ask("BALL #{@ball}:", required: true)
-
-  #     if roll.upcase == "F" || roll == "-"
-  #       @test_arr << "-"
-  #       return 0
-  #     end
-
-  #     if roll.upcase == "X" || roll == "/"
-  #       if frame == 10 && @score_arr[-1] == 10
-  #         @test_arr << "X"
-  #         return 10
-  #       else
-  #         @test_arr << "/"
-  #         return max
-  #       end
-  #     end
-
-  #     if roll.to_i == max
-  #       @test_arr << "/"
-  #       return max
-  #     end
-
-  #     if (roll.to_i > max)
-  #       puts "Error. Please re-enter score."
-  #     else
-  #       @test_arr << "-"
-  #       return roll.to_i
-  #     end
-  #   end
-  # end
-
-  # def third_roll
-  #   print
-  #   prompt = TTY::Prompt.new
-  #   ask = true
-  #   (@score_arr[-1] == 20) ? (max = 10) : (max = 20 - @score_arr[-1])
-
-  #   while ask
-  #     roll = prompt.ask("BALL #{@ball}:", required: true)
-
-  #     if roll.upcase == "F" || roll == "-"
-  #       return 0
-  #     end
-
-  #     if roll.upcase == "X" || roll == "/"
-  #       @test_arr << roll.upcase
-  #       return max
-  #     end
-
-  #     if (roll.to_i > max)
-  #       puts "Error. Please re-enter score."
-  #     else
-  #       @test_arr << "-"
-  #       return roll.to_i
-  #     end
-  #   end
-  # end
-
   def update_ball(roll) # Tidy up?
     if @ball == 1 && ((roll < 10) || @frame == 10)
       @ball = 2
@@ -188,7 +101,6 @@ class Game
       else
         @ball = 3
       end
-      return @ball
     end
   end
 
@@ -198,22 +110,17 @@ class Game
     (@score_arr[-3] += roll) if (@on_strike == 2)
   end
 
-  def update_mark(roll) # Pivot on ball rather than frame?
+  def update_mark(roll)
+    @on_spare = false
     if @frame == 10
-      if @ball == 1
-        @on_strike = 1 if (@on_strike > 0)
-        @on_spare = false
-      else
-        @on_strike = 0
-      end
+      (@ball == 1 && @on_strike > 0) ? (@on_strike = 1) : (@on_strike = 0)
     else # Frames 1-9
       if @ball == 1
         @on_strike += 1 if (roll == 10 && @on_strike < 2)
-        @on_spare = false
       else
         @on_strike = 0
-        @on_spare = true if (@score_arr[-1] == 10)
       end
+      @on_spare = true if (@ball == 2 && @score_arr[-1] == 10)
     end
   end
 end
