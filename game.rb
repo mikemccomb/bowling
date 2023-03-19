@@ -124,4 +124,9 @@ class Game
       @on_spare = true if (@ball == 2 && @score_arr[-1] == 10)
     end
   end
+
+  def play_again
+    prompt = TTY::Prompt.new
+    prompt.yes?("Would you like to play again?")
+  end
 end
