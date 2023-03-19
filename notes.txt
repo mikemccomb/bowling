@@ -3,18 +3,20 @@ Potential features:
 Player name 
 
 Multiple players
-
-Play again?
+* Can ask for number of players
+* Generate a score line for each player
+* Display all lines simultaneously
+* Update each line independently
 
 Save player data
+
+Try to use prompt gem methods to simplify game.roll_value logic
 
 New class: display; separate from game elements
 
 Display as a score card:
 NAME |[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][]|[][][]|
 SCORE| ## | ## | ## | ## | ## | ## | ## | ## | ## | ###  |
-
-Display scorecard with all players 
 
 Congratulate closed frames
 

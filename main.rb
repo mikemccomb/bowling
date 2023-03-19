@@ -1,10 +1,11 @@
 require "tty-prompt"
 require "./display.rb"
 
-# display = Display.new
-# display.player
+display = Display.new
 
 play = true
+number_players = display.number_players
+player_name = display.player_name
 
 while play
   game = Game.new

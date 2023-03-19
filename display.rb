@@ -7,11 +7,22 @@ class Display < Game
 
   def initialize
     super
-    @player_name = ""
   end
 
-  def player
+  def player_name
     prompt = TTY::Prompt.new
-    @player_name = prompt.ask("Player 1 Name:", required: true)
+    prompt.ask("What is your name?") do |q|
+      q.required true
+      q.validate /\A\w+\Z/
+      q.modify :capitalize
+    end
+  end
+
+  def number_players
+    prompt = TTY::Prompt.new
+    prompt.ask("How many players?") do |q|
+      q.in "1-6"
+      q.messages[:range?] = "Please enter a number (maximum 6)"
+    end
   end
 end
